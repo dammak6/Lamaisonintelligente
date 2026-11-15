@@ -1,0 +1,470 @@
+/* house.css - Rendu architectural de la maison moderne d'architecte */
+
+.house-environment-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 10%, #0d1527 0%, #060913 80%);
+  border: 1px solid var(--border-subtle);
+  box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.8);
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Ciel nocturne et ambiance extérieure */
+.house-sky-backdrop {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.sky-stars {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    radial-gradient(1px 1px at 20px 30px, #ffffff, rgba(0,0,0,0)),
+    radial-gradient(1px 1px at 80px 120px, #38bdf8, rgba(0,0,0,0)),
+    radial-gradient(1.5px 1.5px at 240px 60px, #ffffff, rgba(0,0,0,0)),
+    radial-gradient(1px 1px at 450px 180px, #ffffff, rgba(0,0,0,0)),
+    radial-gradient(1px 1px at 700px 90px, #818cf8, rgba(0,0,0,0)),
+    radial-gradient(1.5px 1.5px at 950px 40px, #ffffff, rgba(0,0,0,0));
+  background-repeat: repeat;
+  background-size: 1000px 300px;
+  opacity: 0.5;
+}
+
+.sky-moon-glow {
+  position: absolute;
+  top: -40px;
+  right: 120px;
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.08) 0%, transparent 70%);
+}
+
+/* Architecture moderne */
+.house-architecture {
+  position: relative;
+  width: 90%;
+  max-width: 960px;
+  margin: 0 auto 30px auto;
+  display: flex;
+  flex-direction: column;
+  z-index: 10;
+}
+
+/* Casquette de toit plat moderne */
+.house-roofline {
+  height: 18px;
+  background: #141a29;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  border-bottom: 2px solid #080c16;
+  position: relative;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+}
+
+.roof-accent-light {
+  position: absolute;
+  bottom: 0;
+  left: 10%;
+  right: 10%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #38bdf8, transparent);
+  opacity: 0.6;
+}
+
+/* Façade principale */
+.house-facade {
+  background: #0f1626;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7);
+}
+
+/* Étage supérieur */
+.room-upper {
+  height: 160px;
+  border-bottom: 4px solid #0b101c;
+  padding: 16px 24px;
+  position: relative;
+  background: #0b111e;
+  transition: all 0.6s ease;
+}
+
+.room-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.room-indicator {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-cyan);
+}
+
+/* Allumage des pièces */
+.lights-active {
+  background: radial-gradient(ellipse at 50% 30%, rgba(254, 240, 138, 0.15) 0%, #0d1527 100%) !important;
+}
+
+.lights-off {
+  background: #080c16 !important;
+  opacity: 0.7;
+}
+
+/* Fenêtre supérieure */
+.upper-window {
+  width: 220px;
+  height: 90px;
+  background: #070a12;
+  border: 2px solid rgba(255, 255, 255, 0.12);
+  border-radius: 4px;
+  position: absolute;
+  right: 40px;
+  top: 35px;
+  overflow: hidden;
+}
+
+/* Stores électriques */
+.smart-blinds {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: rgba(15, 23, 42, 0.95);
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 5;
+}
+
+.blind-slat {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.12);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+.blinds-up {
+  transform: translateY(-88%);
+}
+
+.blinds-half {
+  transform: translateY(-45%);
+}
+
+.blinds-down {
+  transform: translateY(0);
+}
+
+/* Rez-de-chaussée */
+.ground-floor {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  height: 230px;
+}
+
+/* Cuisine */
+.room-kitchen {
+  border-right: 4px solid #0b101c;
+  padding: 16px 20px;
+  position: relative;
+  background: #0a0f1c;
+  transition: all 0.6s ease;
+}
+
+.kitchen-counter {
+  position: absolute;
+  bottom: 0;
+  left: 20px;
+  right: 20px;
+  height: 35px;
+  background: #162035;
+  border-top: 3px solid #2b3a58;
+  border-radius: 2px;
+}
+
+/* Grand salon panoramique */
+.room-living {
+  padding: 16px 24px;
+  position: relative;
+  background: #0c1220;
+  transition: all 0.6s ease;
+}
+
+.panoramic-glass-wall {
+  position: absolute;
+  top: 45px;
+  bottom: 10px;
+  left: 24px;
+  right: 24px;
+  border: 2px solid rgba(255, 255, 255, 0.12);
+  background: rgba(7, 10, 18, 0.6);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.panoramic-blinds {
+  background: rgba(15, 23, 42, 0.94);
+}
+
+.panoramic-slat {
+  height: 5px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.living-lounge {
+  position: absolute;
+  bottom: 10px;
+  left: 30px;
+  right: 30px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  pointer-events: none;
+}
+
+.lounge-sofa {
+  width: 180px;
+  height: 40px;
+  background: #18233c;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.lounge-lamp {
+  width: 14px;
+  height: 70px;
+  background: #233150;
+  border-radius: 2px;
+}
+
+/* Terrasse extérieure et projecteurs au sol */
+.house-patio {
+  height: 35px;
+  background: #090d18;
+  border-top: 2px solid #1a233a;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 40px;
+}
+
+.patio-spotlight {
+  width: 12px;
+  height: 4px;
+  background: #253352;
+  border-radius: 2px;
+  position: relative;
+  transition: all 0.5s ease;
+}
+
+.spot-on {
+  background: #38bdf8;
+  box-shadow: 0 0 16px #38bdf8, 0 -10px 25px rgba(56, 189, 248, 0.4);
+}
+
+/* Hotspots des appareils connectés */
+.device-hotspot {
+  position: absolute;
+  z-index: 20;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.device-hotspot:hover {
+  transform: scale(1.08);
+}
+
+.hotspot-badge {
+  background: rgba(7, 12, 24, 0.88);
+  border: 1px solid var(--border-subtle);
+  border-radius: 20px;
+  padding: 5px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-white);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+}
+
+.device-hotspot.active .hotspot-badge {
+  border-color: var(--color-cyan);
+  box-shadow: 0 0 18px rgba(56, 189, 248, 0.4);
+}
+
+.device-hotspot.focused {
+  transform: scale(1.15);
+}
+
+.device-hotspot.focused .hotspot-badge {
+  border-color: #38bdf8;
+  box-shadow: 0 0 25px #38bdf8;
+}
+
+/* Positions des hotspots */
+.device-ac {
+  top: 35px;
+  left: 40px;
+}
+
+.device-coffee {
+  top: 35px;
+  left: 20px;
+}
+
+.device-lights {
+  top: 15px;
+  right: 180px;
+}
+
+.device-blinds {
+  top: 15px;
+  right: 40px;
+}
+
+.device-speaker {
+  bottom: 25px;
+  right: 40px;
+}
+
+/* Particules de vapeur (Machine à café) */
+.steam-container {
+  position: absolute;
+  top: -15px;
+  left: 15px;
+  display: flex;
+  gap: 4px;
+}
+
+.steam {
+  width: 4px;
+  height: 14px;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 4px;
+  animation: pulseGlow 1.2s infinite alternate;
+}
+
+.steam-2 {
+  animation-delay: 0.4s;
+}
+
+/* Onde sonore (Enceinte connectée) */
+.soundwave-spectrum {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 12px;
+  margin-left: 4px;
+}
+
+.soundwave-spectrum .bar {
+  width: 2px;
+  background: var(--color-cyan);
+  border-radius: 1px;
+  animation: soundBars 0.8s infinite alternate ease-in-out;
+}
+
+@keyframes soundBars {
+  0% { height: 2px; }
+  100% { height: 12px; }
+}
+
+.bar-1 { animation-delay: 0.1s; }
+.bar-2 { animation-delay: 0.3s; }
+.bar-3 { animation-delay: 0.2s; }
+.bar-4 { animation-delay: 0.5s; }
+.bar-5 { animation-delay: 0.4s; }
+
+/* Flux d'air (Climatisation) */
+.airflow-particles {
+  position: absolute;
+  top: 28px;
+  left: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  pointer-events: none;
+}
+
+.airflow-beam {
+  height: 2px;
+  background: linear-gradient(90deg, rgba(56, 189, 248, 0.8), transparent);
+  border-radius: 2px;
+  animation: airflowMove 1.4s infinite ease-out;
+}
+
+.beam-1 { width: 70px; }
+.beam-2 { width: 50px; animation-delay: 0.2s; }
+.beam-3 { width: 60px; animation-delay: 0.4s; }
+
+@keyframes airflowMove {
+  0% { transform: translateX(0); opacity: 0.8; }
+  100% { transform: translateX(35px); opacity: 0; }
+}
+
+/* Anneau de commande groupée multi-appareils */
+.multi-device-pulse-ring {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  z-index: 40;
+}
+
+.pulse-tag {
+  background: rgba(56, 189, 248, 0.15);
+  border: 1px solid var(--color-cyan);
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+  padding: 6px 14px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-cyan);
+}
+
+/* Alerte déconnexion Wi-Fi (Scene 6) */
+.house-offline-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(185, 28, 28, 0.1);
+  border: 2px solid rgba(239, 68, 68, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 45;
+  backdrop-filter: blur(2px);
+}
+
+.offline-pill {
+  background: rgba(15, 23, 42, 0.95);
+  border: 1px solid var(--color-red);
+  padding: 10px 20px;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fca5a5;
+  box-shadow: 0 0 30px rgba(239, 68, 68, 0.4);
+}
