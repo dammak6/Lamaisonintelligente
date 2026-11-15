@@ -83,7 +83,7 @@ export default function ThreeSmartHouse({
     let targetRoof = 1.0; // Mode intérieur cutaway par défaut
 
     if (activeDeviceId === 'speaker') {
-      targetPreset = 'living';
+      targetPreset = 'speaker';
       targetRoof = 1.0;
     } else if (activeDeviceId === 'coffee') {
       targetPreset = 'kitchen';
@@ -229,44 +229,109 @@ export default function ThreeSmartHouse({
     devicesGroup.name = "Interactive_Smart_Devices";
 
     // -------------------------------------------------------------------------
-    // APPAREIL 1 : ENCEINTE CONNECTÉE (Sur le meuble TV / crédence du salon)
+    // APPAREIL 1 : ENCEINTE CONNECTÉE HAUT DE GAMME (Sur la crédence du salon)
+    // Design contemporain premium : maille acoustique 3D, disque tactile supérieur,
+    // halo LED électroluminescent, base aluminium biseautée
     // -------------------------------------------------------------------------
     const speakerGroup = new THREE.Group();
     speakerGroup.name = "Device_Speaker";
-    speakerGroup.position.set(-0.9, 0.98, -4.0);
+    speakerGroup.position.set(-4.6, 0.86, -4.0);
 
-    const speakerBody = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.2, 0.22, 0.45, 16),
+    // Ombre de contact douce sous la base de l'enceinte
+    const speakerShadow = new THREE.Mesh(
+      new THREE.CircleGeometry(0.22, 24),
+      materials.contactShadowMat
+    );
+    speakerShadow.rotation.x = -Math.PI / 2;
+    speakerShadow.position.y = 0.005;
+    speakerGroup.add(speakerShadow);
+
+    // 1. Anneau de base usiné en aluminium anodisé
+    const speakerBase = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.142, 0.146, 0.024, 32),
       materials.charcoalMatteMetal
     );
-    speakerBody.position.y = 0.22;
-    speakerBody.castShadow = true;
+    speakerBase.position.y = 0.012;
+    speakerBase.castShadow = true;
+    speakerBase.receiveShadow = true;
+    speakerGroup.add(speakerBase);
 
-    const speakerRing = new THREE.Mesh(
-      new THREE.TorusGeometry(0.16, 0.025, 12, 24),
-      new THREE.MeshStandardMaterial({
-        color: 0x38bdf8,
-        emissive: new THREE.Color(0x38bdf8),
-        emissiveIntensity: 1.6,
-        roughness: 0.2,
-      })
+    // 2. Corps principal en maille acoustique 3D micro-tissée (profil galbé doux)
+    const speakerBody = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.134, 0.142, 0.36, 32),
+      materials.smartSpeakerFabric
     );
-    speakerRing.position.y = 0.45;
+    speakerBody.position.y = 0.204;
+    speakerBody.castShadow = true;
+    speakerBody.receiveShadow = true;
+    speakerGroup.add(speakerBody);
+
+    // 3. Bague d'épaulement supérieure biseautée
+    const speakerShoulder = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.126, 0.134, 0.028, 32),
+      materials.charcoalMatteMetal
+    );
+    speakerShoulder.position.y = 0.398;
+    speakerGroup.add(speakerShoulder);
+
+    // 4. Halo lumineux LED immersif (anneau guide de lumière)
+    const speakerRing = new THREE.Mesh(
+      new THREE.TorusGeometry(0.124, 0.009, 16, 48),
+      materials.smartSpeakerRing
+    );
+    speakerRing.position.y = 0.412;
     speakerRing.rotation.x = Math.PI / 2;
-    speakerGroup.add(speakerBody, speakerRing);
+    speakerGroup.add(speakerRing);
     interactiveNodesRef.current.speakerGlowRing = speakerRing;
 
-    // Ondes sonores qui rayonnent quand active
+    // 5. Surface tactile supérieure en verre noir obsidienne
+    const speakerGlassDisc = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.12, 0.12, 0.008, 32),
+      materials.smartSpeakerControlGlass
+    );
+    speakerGlassDisc.position.y = 0.414;
+    speakerGroup.add(speakerGlassDisc);
+
+    // 6. Icônes tactiles minimalistes intégrées (+, -, point d'état)
+    const touchMinus = new THREE.Mesh(
+      new THREE.BoxGeometry(0.024, 0.002, 0.005),
+      materials.exteriorPlaster
+    );
+    touchMinus.position.set(-0.045, 0.419, 0);
+    speakerGroup.add(touchMinus);
+
+    const touchPlusH = new THREE.Mesh(
+      new THREE.BoxGeometry(0.024, 0.002, 0.005),
+      materials.exteriorPlaster
+    );
+    touchPlusH.position.set(0.045, 0.419, 0);
+    speakerGroup.add(touchPlusH);
+
+    const touchPlusV = new THREE.Mesh(
+      new THREE.BoxGeometry(0.005, 0.002, 0.024),
+      materials.exteriorPlaster
+    );
+    touchPlusV.position.set(0.045, 0.419, 0);
+    speakerGroup.add(touchPlusV);
+
+    const touchDot = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.006, 0.006, 0.003, 16),
+      materials.warmLightEmissive
+    );
+    touchDot.position.set(0, 0.419, 0);
+    speakerGroup.add(touchDot);
+
+    // 7. Ondes acoustiques rayonnantes quand active (3 anneaux subtils)
     for (let i = 0; i < 3; i++) {
       const wave = new THREE.Mesh(
-        new THREE.TorusGeometry(0.3 + i * 0.18, 0.015, 8, 24),
+        new THREE.TorusGeometry(0.2 + i * 0.14, 0.01, 12, 36),
         new THREE.MeshBasicMaterial({
           color: 0x38bdf8,
           transparent: true,
           opacity: 0,
         })
       );
-      wave.position.y = 0.45;
+      wave.position.y = 0.415;
       wave.rotation.x = Math.PI / 2;
       speakerGroup.add(wave);
       interactiveNodesRef.current.speakerWaves.push(wave);
@@ -554,7 +619,7 @@ export default function ThreeSmartHouse({
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate);
 
-      const delta = clock.getDelta();
+      const delta = Math.min(clock.getDelta(), 0.05);
       const elapsedTime = clock.getElapsedTime();
       const { sceneId, stageIndex, houseState, isOffline } = stateRef.current;
       const { lights, blinds, ac, coffee, speaker } = houseState;
@@ -596,17 +661,23 @@ export default function ThreeSmartHouse({
       // D. Animation de l'Enceinte Connectée
       if (nodes.speakerGlowRing) {
         if (speaker) {
-          const pulse = 1.0 + Math.sin(elapsedTime * 6) * 0.12;
+          const pulse = 1.0 + Math.sin(elapsedTime * 4.5) * 0.06;
           nodes.speakerGlowRing.scale.set(pulse, pulse, pulse);
+          if (nodes.speakerGlowRing.material) {
+            nodes.speakerGlowRing.material.emissiveIntensity = 2.4 + Math.sin(elapsedTime * 5.5) * 0.8;
+          }
 
           nodes.speakerWaves.forEach((wave, idx) => {
-            const progress = (elapsedTime * 1.5 + idx * 0.33) % 1.0;
-            const waveScale = 1.0 + progress * 1.8;
+            const progress = (elapsedTime * 1.2 + idx * 0.33) % 1.0;
+            const waveScale = 1.0 + progress * 2.2;
             wave.scale.set(waveScale, waveScale, waveScale);
-            wave.material.opacity = (1.0 - progress) * 0.45;
+            wave.material.opacity = (1.0 - progress) * 0.55;
           });
         } else {
           nodes.speakerGlowRing.scale.set(1, 1, 1);
+          if (nodes.speakerGlowRing.material) {
+            nodes.speakerGlowRing.material.emissiveIntensity = 1.2;
+          }
           nodes.speakerWaves.forEach((wave) => {
             wave.material.opacity = 0;
           });
@@ -677,6 +748,9 @@ export default function ThreeSmartHouse({
       cameraRig.dispose();
       lightingRig.dispose();
       materials.dispose();
+      scene.traverse((obj) => {
+        if (obj.geometry) obj.geometry.dispose();
+      });
       renderer.dispose();
     };
   }, []);

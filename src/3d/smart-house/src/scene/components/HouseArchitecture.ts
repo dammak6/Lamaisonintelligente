@@ -201,7 +201,6 @@ export function createHouseArchitecture(
   for (let i = 0; i < 28; i++) {
     const slat = new THREE.Mesh(slatGeo, materials.warmOakCabinet);
     slat.position.set(-7.2 + i * 0.118, gfCenterY, -4.46);
-    slat.castShadow = true;
     house.add(slat);
   }
 
@@ -536,7 +535,6 @@ export function createHouseArchitecture(
     const louver = new THREE.Mesh(louverGeo, materials.warmOakCabinet);
     louver.position.set(-8.38, ufCenterY, -2.1 + i * 0.35);
     louver.rotation.y = 0.35;
-    louver.castShadow = true;
     house.add(louver);
   }
 

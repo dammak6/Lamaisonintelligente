@@ -91,7 +91,7 @@ export default function Scene3Devices({ stageIndex }) {
         {stageIndex >= 3 && stageIndex <= 5 && (
           <div className="theatrical-callout animate-pulse">
             <Smartphone size={16} className="text-cyan" />
-            <span>ACCESSOIRE SCÉNIQUE : Dammak utilise son smartphone</span>
+            <span>ACCESSOIRE SCÉNIQUE : Mahmoud Dammak utilise son smartphone</span>
           </div>
         )}
       </div>

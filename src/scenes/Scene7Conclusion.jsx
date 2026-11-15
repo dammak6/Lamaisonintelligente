@@ -77,7 +77,7 @@ export default function Scene7Conclusion({ stageIndex }) {
 
             <div className="debate-invitation">
               <MessageSquare size={16} className="text-cyan inline mr-2" />
-              <span>Dammak et Louay vous invitent à partager vos avis et réflexions !</span>
+              <span>Mahmoud Dammak et Louay Kouki vous invitent à partager vos avis et réflexions !</span>
             </div>
           </div>
         )}
@@ -95,21 +95,21 @@ export default function Scene7Conclusion({ stageIndex }) {
 
             <div className="final-thanks-box">
               <h2>Merci pour votre attention !</h2>
-              <p>Avez-vous des questions pour Dammak et Louay ?</p>
+              <p>Avez-vous des questions pour Mahmoud Dammak et Louay Kouki ?</p>
             </div>
 
             <div className="final-presenters-row">
               <div className="presenter-card-final">
-                <div className="p-avatar">D</div>
+                <div className="p-avatar">M</div>
                 <div>
-                  <strong>Dammak</strong>
+                  <strong>Mahmoud Dammak</strong>
                   <small>Présentateur 1</small>
                 </div>
               </div>
               <div className="presenter-card-final">
                 <div className="p-avatar">L</div>
                 <div>
-                  <strong>Louay</strong>
+                  <strong>Louay Kouki</strong>
                   <small>Présentateur 2</small>
                 </div>
               </div>

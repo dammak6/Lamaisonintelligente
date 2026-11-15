@@ -44,6 +44,10 @@ export interface ArchitecturalMaterials {
   artCanvasWarm: THREE.MeshStandardMaterial;
   artCanvasAbstract: THREE.MeshStandardMaterial;
   contactShadowMat: THREE.MeshBasicMaterial;
+  // Smart Speaker Redesign Materials
+  smartSpeakerFabric: THREE.MeshStandardMaterial;
+  smartSpeakerControlGlass: THREE.MeshStandardMaterial;
+  smartSpeakerRing: THREE.MeshStandardMaterial;
   dispose: () => void;
 }
 
@@ -314,15 +318,14 @@ export function createArchitecturalMaterials(
   const architecturalGlass = track(
     new THREE.MeshPhysicalMaterial({
       color: 0xdff0f7,
-      roughness: 0.06,
-      metalness: 0.05,
-      transmission: isSoftwareGl ? 0 : 0.88,
+      roughness: 0.04,
+      metalness: 0.08,
+      transmission: 0,
       transparent: true,
-      opacity: isSoftwareGl ? 0.28 : 1.0,
-      ior: 1.52,
-      thickness: 0.12,
-      clearcoat: 1.0,
-      clearcoatRoughness: 0.05,
+      opacity: 0.32,
+      ior: 1.5,
+      clearcoat: 0.9,
+      clearcoatRoughness: 0.04,
       depthWrite: false,
     })
   );
@@ -330,13 +333,14 @@ export function createArchitecturalMaterials(
   const balustradeGlass = track(
     new THREE.MeshPhysicalMaterial({
       color: 0xd0e8f2,
-      roughness: 0.05,
+      roughness: 0.04,
       metalness: 0.08,
-      transmission: isSoftwareGl ? 0 : 0.84,
+      transmission: 0,
       transparent: true,
-      opacity: isSoftwareGl ? 0.34 : 1.0,
-      ior: 1.52,
-      thickness: 0.08,
+      opacity: 0.35,
+      ior: 1.5,
+      clearcoat: 0.9,
+      clearcoatRoughness: 0.04,
       depthWrite: false,
     })
   );
@@ -344,12 +348,14 @@ export function createArchitecturalMaterials(
   const skylightGlass = track(
     new THREE.MeshPhysicalMaterial({
       color: 0xe3f2fa,
-      roughness: 0.08,
-      metalness: 0.1,
-      transmission: isSoftwareGl ? 0 : 0.82,
+      roughness: 0.05,
+      metalness: 0.08,
+      transmission: 0,
       transparent: true,
-      opacity: isSoftwareGl ? 0.36 : 1.0,
+      opacity: 0.36,
       ior: 1.5,
+      clearcoat: 0.9,
+      clearcoatRoughness: 0.04,
       depthWrite: false,
     })
   );
@@ -566,6 +572,37 @@ export function createArchitecturalMaterials(
     })
   );
 
+  // Matériau tissu acoustique 3D micro-tissé pour l'enceinte intelligente
+  const smartSpeakerFabric = track(
+    new THREE.MeshStandardMaterial({
+      color: 0x222834,
+      bumpMap: fabricBump,
+      bumpScale: 0.022,
+      roughness: 0.78,
+      metalness: 0.08,
+    })
+  );
+
+  // Disque tactile supérieur noir obsidienne fumé
+  const smartSpeakerControlGlass = track(
+    new THREE.MeshStandardMaterial({
+      color: 0x11141a,
+      roughness: 0.18,
+      metalness: 0.72,
+    })
+  );
+
+  // Anneau lumineux LED électroluminescent
+  const smartSpeakerRing = track(
+    new THREE.MeshStandardMaterial({
+      color: 0x38bdf8,
+      emissive: new THREE.Color(0x38bdf8),
+      emissiveIntensity: 2.2,
+      roughness: 0.15,
+      metalness: 0.1,
+    })
+  );
+
   return {
     warmOakFloor,
     warmOakCabinet,
@@ -601,6 +638,9 @@ export function createArchitecturalMaterials(
     artCanvasWarm,
     artCanvasAbstract,
     contactShadowMat,
+    smartSpeakerFabric,
+    smartSpeakerControlGlass,
+    smartSpeakerRing,
     dispose: () => {
       disposableMaterials.forEach((m) => m.dispose());
       disposableTextures.forEach((t) => t.dispose());

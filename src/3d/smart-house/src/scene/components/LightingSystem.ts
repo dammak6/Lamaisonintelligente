@@ -37,8 +37,8 @@ export function createLightingSystem(
   sunLight.castShadow = !isSoftwareGl;
 
   if (!isSoftwareGl) {
-    sunLight.shadow.mapSize.width = 2048;
-    sunLight.shadow.mapSize.height = 2048;
+    sunLight.shadow.mapSize.width = 1024;
+    sunLight.shadow.mapSize.height = 1024;
     const d = 16.5;
     sunLight.shadow.camera.left = -d;
     sunLight.shadow.camera.right = d;
@@ -48,7 +48,7 @@ export function createLightingSystem(
     sunLight.shadow.camera.far = 52.0;
     sunLight.shadow.bias = -0.0005;
     sunLight.shadow.normalBias = 0.02;
-    sunLight.shadow.radius = 2.5;
+    sunLight.shadow.radius = 2.0;
   }
   group.add(sunLight);
   group.add(sunLight.target);
@@ -84,12 +84,18 @@ export function createLightingSystem(
   gardenPathLight.position.set(-1.5, 1.1, 7.2);
   group.add(gardenPathLight);
 
+  // Éclairage studio d'appoint doux pour la mise en valeur rapprochée de l'enceinte intelligente
+  const speakerStudioLight = new THREE.PointLight(0xdbeafe, 1.8, 5.0, 1.8);
+  speakerStudioLight.position.set(-4.6, 2.0, -3.2);
+  group.add(speakerStudioLight);
+
   const interiorLights = [
     { light: livingRoomLight, baseIntensity: 3.2 },
     { light: kitchenDiningLight, baseIntensity: 3.4 },
     { light: foyerStairLight, baseIntensity: 2.6 },
     { light: masterBedroomLight, baseIntensity: 3.2 },
     { light: gardenPathLight, baseIntensity: 2.0 },
+    { light: speakerStudioLight, baseIntensity: 1.6 },
   ];
 
   // Atmospheric Sky Dome backdrop
@@ -175,6 +181,7 @@ export function createLightingSystem(
     group,
     applyAmbiance,
     dispose: () => {
+      scene.environment = null;
       envRenderTarget.dispose();
       skyGeo.dispose();
       skyMat.dispose();

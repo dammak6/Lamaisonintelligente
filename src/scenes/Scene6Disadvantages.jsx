@@ -28,9 +28,9 @@ export default function Scene6Disadvantages({ stageIndex }) {
     {
       id: "internet",
       title: "1. Dépendance à Internet",
-      subtitle: "Pas de réseau = pas de commandes à distance",
-      desc: "Si votre box Internet tombe en panne ou s'il y a une coupure électrique générale, certains objets cessent de répondre.",
-      example: "Exemple : Impossible d'ouvrir le portail avec le smartphone sans réseau.",
+      subtitle: "Pas de réseau = pas de contrôle",
+      desc: "Si la box Internet tombe en panne ou s'il y a une coupure de courant, les appareils ne répondent plus.",
+      example: "Exemple : Impossible d'ouvrir les volets avec son téléphone sans Wi-Fi.",
       icon: WifiOff,
       color: "text-red",
       stage: 1
@@ -38,9 +38,9 @@ export default function Scene6Disadvantages({ stageIndex }) {
     {
       id: "privacy",
       title: "2. Protection de la vie privée",
-      subtitle: "Nos données personnelles et nos habitudes",
-      desc: "Les enceintes et caméras écoutent et enregistrent des informations sur nos horaires et notre vie de famille.",
-      example: "Exemple : Les grandes entreprises savent à quelle heure vous vous levez.",
+      subtitle: "Nos données personnelles",
+      desc: "Les micros et les caméras enregistrent des données sur notre vie et nos horaires à la maison.",
+      example: "Exemple : Les entreprises peuvent savoir à quelle heure vous êtes chez vous.",
       icon: EyeOff,
       color: "text-amber",
       stage: 2
@@ -48,19 +48,19 @@ export default function Scene6Disadvantages({ stageIndex }) {
     {
       id: "hack",
       title: "3. Risques de piratage",
-      subtitle: "La sécurité informatique à domicile",
-      desc: "Si les appareils ont des mots de passe trop simples, un pirate informatique peut tenter de s'y connecter.",
-      example: "Exemple : Un individu malveillant qui tente d'éteindre les lumières.",
+      subtitle: "La sécurité des appareils",
+      desc: "Avec un mot de passe trop facile, une personne malveillante peut essayer d'entrer dans le système.",
+      example: "Exemple : Un pirate qui tente de contrôler les lumières.",
       icon: ShieldAlert,
       color: "text-orange",
       stage: 3
     },
     {
       id: "cost",
-      title: "4. Prix encore très élevé",
-      subtitle: "Un investissement important",
-      desc: "Acheter des ampoules connectées, des moteurs de stores et faire installer le réseau par un technicien coûte cher.",
-      example: "Exemple : Une ampoule connectée coûte 5 fois plus cher qu'une ampoule classique.",
+      title: "4. Prix élevé",
+      subtitle: "Un budget important",
+      desc: "Acheter des ampoules connectées, des moteurs et installer le matériel coûte cher.",
+      example: "Exemple : Une ampoule connectée est plus chère qu'une ampoule normale.",
       icon: DollarSign,
       color: "text-yellow",
       stage: 3
@@ -128,10 +128,10 @@ export default function Scene6Disadvantages({ stageIndex }) {
         <div className="security-tips-banner animate-slide-up">
           <div className="tips-badge">
             <CheckCircle size={18} className="text-cyan" />
-            <span>LE CONSEIL PRATIQUE DE DAMMAK & LOUAY</span>
+            <span>LE CONSEIL PRATIQUE DE MAHMOUD DAMMAK & LOUAY KOUKI</span>
           </div>
           <p className="tips-text">
-            « Pour profiter de la maison intelligente en toute tranquillité : créez des <strong>mots de passe complexes</strong>, mettez toujours vos <strong>appareils à jour</strong> et gardez des <strong>interrupteurs manuels</strong> ! »
+            « Pour utiliser la maison intelligente en toute tranquillité : choisissez des <strong>mots de passe solides</strong>, mettez à jour vos <strong>appareils</strong> et gardez des <strong>boutons manuels</strong> ! »
           </p>
         </div>
       )}

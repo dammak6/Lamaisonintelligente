@@ -29,7 +29,7 @@ export default function NavigationBar({
         </div>
         <div className="brand-text">
           <span className="brand-title">{PRESENTATION_INFO.title}</span>
-          <span className="brand-subtitle">Dammak & Louay • Niveau A2</span>
+          <span className="brand-subtitle">Mahmoud Dammak & Louay Kouki • Niveau A2</span>
         </div>
       </div>
 

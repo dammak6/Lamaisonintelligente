@@ -24,7 +24,7 @@ export default function Scene2Definition({ stageIndex }) {
           Une maison intelligente utilise des <strong>objets connectés</strong> pour <strong>faciliter notre vie</strong>.
         </p>
         <span className="definition-subquote">
-          Elle communique, analyse et obéit à nos besoins automatiquement.
+          Les appareils sont connectés. Ils peuvent communiquer entre eux.
         </span>
       </div>
 
@@ -38,7 +38,7 @@ export default function Scene2Definition({ stageIndex }) {
           <div className="pillar-tag">PILIER 1</div>
           <h3 className="pillar-title">Les Objets Connectés</h3>
           <p className="pillar-desc">
-            Des appareils équipés de puces et de capteurs intelligents (lumières, stores, thermostat, musique).
+            Des appareils avec des capteurs simples (lumières, stores, chauffage, musique).
           </p>
           <div className="pillar-badge">
             <Check size={14} className="text-cyan" />
@@ -52,9 +52,9 @@ export default function Scene2Definition({ stageIndex }) {
             <Wifi size={26} className="text-indigo" />
           </div>
           <div className="pillar-tag">PILIER 2</div>
-          <h3 className="pillar-title">Le Réseau de Communication</h3>
+          <h3 className="pillar-title">Le Réseau sans fil</h3>
           <p className="pillar-desc">
-            Une connexion sans fil (Wi-Fi, Bluetooth) qui relie tous les appareils entre eux et à Internet.
+            Une connexion sans fil (Wi-Fi, Bluetooth) qui relie les appareils entre eux et à Internet.
           </p>
           <div className="pillar-badge">
             <Check size={14} className="text-cyan" />
@@ -70,7 +70,7 @@ export default function Scene2Definition({ stageIndex }) {
           <div className="pillar-tag">PILIER 3</div>
           <h3 className="pillar-title">Contrôle à Distance</h3>
           <p className="pillar-desc">
-            L'utilisateur commande sa maison par la voix ou depuis son smartphone, même à des kilomètres.
+            Avec une maison intelligente, je peux contrôler mes appareils avec mon téléphone ou ma voix.
           </p>
           <div className="pillar-badge">
             <Check size={14} className="text-cyan" />

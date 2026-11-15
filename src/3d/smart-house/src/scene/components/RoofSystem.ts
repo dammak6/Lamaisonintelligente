@@ -144,7 +144,6 @@ export function createRoofSystem(
       materials.warmOakCabinet
     );
     rib.position.set(0, 0.14, -3.4 + r * 0.85);
-    rib.castShadow = true;
     centerSkylightPanel.add(rib);
   }
 
@@ -187,7 +186,6 @@ export function createRoofSystem(
   for (let s = 0; s < 15; s++) {
     const slat = new THREE.Mesh(pergolaSlatGeo, materials.warmOakCabinet);
     slat.position.set(0, 0.14, -4.4 + s * 0.63);
-    slat.castShadow = true;
     terracePergolaPanel.add(slat);
   }
 

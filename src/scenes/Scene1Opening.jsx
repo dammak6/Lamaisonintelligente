@@ -57,13 +57,13 @@ export default function Scene1Opening({ stageIndex, onTriggerAction }) {
 
             <div className="presenters-badge-row">
               <span className="presenter-chip chip-dammak">
-                <span className="chip-avatar">D</span>
-                Dammak (Présentateur 1)
+                <span className="chip-avatar">M</span>
+                Mahmoud Dammak (Présentateur 1)
               </span>
               <span className="chip-separator">+</span>
               <span className="presenter-chip chip-louay">
                 <span className="chip-avatar">L</span>
-                Louay (Présentateur 2)
+                Louay Kouki (Présentateur 2)
               </span>
             </div>
           </div>

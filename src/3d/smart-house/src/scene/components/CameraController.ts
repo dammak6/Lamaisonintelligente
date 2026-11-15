@@ -95,7 +95,7 @@ export function createCameraController(
     let stillMoving = false;
 
     if (activeTransition) {
-      const lambda = isSoftwareGl ? 11.0 : 6.5;
+      const lambda = isSoftwareGl ? 11.0 : 7.2;
       camera.position.x = THREE.MathUtils.damp(
         camera.position.x,
         targetPos.x,
@@ -134,6 +134,8 @@ export function createCameraController(
         dt
       );
 
+      camera.lookAt(controls.target);
+
       if (Math.abs(camera.fov - targetFov) > 0.05) {
         camera.fov = THREE.MathUtils.damp(camera.fov, targetFov, lambda, dt);
         camera.updateProjectionMatrix();
@@ -142,30 +144,31 @@ export function createCameraController(
       const posDistSq = camera.position.distanceToSquared(targetPos);
       const lookDistSq = controls.target.distanceToSquared(targetLookAt);
 
-      if (posDistSq < 0.0008 && lookDistSq < 0.0008) {
+      if (posDistSq < 0.0004 && lookDistSq < 0.0004) {
         camera.position.copy(targetPos);
         controls.target.copy(targetLookAt);
+        camera.lookAt(targetLookAt);
         camera.fov = targetFov;
         camera.updateProjectionMatrix();
         activeTransition = false;
+        controls.update();
       } else {
         stillMoving = true;
       }
+    } else {
+      // Protection anti-collision appliquée pendant le contrôle manuel orbital
+      const clamped = clampCameraPosition(
+        {
+          x: camera.position.x,
+          y: camera.position.y,
+          z: camera.position.z,
+        },
+        roofProgress
+      );
+      _clampedVec.set(clamped.x, clamped.y, clamped.z);
+      camera.position.copy(_clampedVec);
+      controls.update();
     }
-
-    // Enforce anti-clipping bounds so camera never clips through walls or roof
-    const clamped = clampCameraPosition(
-      {
-        x: camera.position.x,
-        y: camera.position.y,
-        z: camera.position.z,
-      },
-      roofProgress
-    );
-    _clampedVec.set(clamped.x, clamped.y, clamped.z);
-    camera.position.copy(_clampedVec);
-
-    controls.update();
     return stillMoving;
   };
 

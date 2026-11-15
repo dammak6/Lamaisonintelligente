@@ -45,7 +45,7 @@ export default function Scene4Communication({ stageIndex }) {
             title="L'Utilisateur"
             subtitle="La source de l'ordre"
             iconType="user"
-            details="Vous donnez un ordre avec votre voix (« Allume le salon ») ou en appuyant sur un bouton de votre smartphone."
+            details="Nous donnons un ordre avec notre voix (« Allume le salon ») ou avec notre smartphone."
             isActive={stageIndex === 1 || stageIndex === 0}
             isCompleted={stageIndex > 1}
           />
@@ -61,9 +61,9 @@ export default function Scene4Communication({ stageIndex }) {
           <NetworkNode
             stepNumber={2}
             title="L'Assistant"
-            subtitle="Le traducteur numérique"
+            subtitle="Le cerveau numérique"
             iconType="assistant"
-            details="L'enceinte ou le boîtier central analyse votre voix et transforme les mots en un message binaire compréhensible par les machines."
+            details="L'assistant écoute notre voix et transforme nos mots en message pour les appareils."
             isActive={stageIndex === 1 || stageIndex === 0}
             isCompleted={stageIndex > 1}
           />
@@ -79,9 +79,9 @@ export default function Scene4Communication({ stageIndex }) {
           <NetworkNode
             stepNumber={3}
             title="Le Réseau"
-            subtitle="L'autoroute de l'information"
+            subtitle="La route sans fil"
             iconType="network"
-            details="Les données voyagent instantanément dans l'air grâce aux ondes radio sécurisées."
+            details="Le message voyage très vite dans l'air avec le Wi-Fi, le Bluetooth ou Internet."
             isActive={stageIndex === 2 || stageIndex === 0}
             isCompleted={stageIndex > 2}
             protocols={networkProtocols}
@@ -97,10 +97,10 @@ export default function Scene4Communication({ stageIndex }) {
         <div className="flow-step-wrapper">
           <NetworkNode
             stepNumber={4}
-            title="Objets Connectés"
-            subtitle="L'exécution immédiate"
+            title="Appareils Connectés"
+            subtitle="L'action immédiate"
             iconType="devices"
-            details="La puce électronique de la lampe, du store ou du climatiseur reçoit le signal et exécute l'action en 0,1 seconde !"
+            details="L'appareil reçoit le signal et fait l'action en un instant : allumer, ouvrir, chauffer !"
             isActive={stageIndex === 3 || stageIndex === 0}
             isCompleted={stageIndex >= 3}
           />
@@ -111,7 +111,7 @@ export default function Scene4Communication({ stageIndex }) {
       <div className="network-summary-banner">
         <Zap size={16} className="text-cyan animate-pulse" />
         <span>
-          <strong>Formule simple à retenir :</strong> Ordre vocal → Signal informatique → Onde sans-fil → Action physique immédiate !
+          <strong>Formule simple :</strong> Ordre vocal → Assistant → Réseau sans fil → Action de l'appareil !
         </span>
       </div>
     </div>

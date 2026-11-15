@@ -1,5 +1,5 @@
 // PresenterCues.jsx
-// Barre de répliques et souffleur pour Dammak et Louay
+// Barre de répliques et souffleur pour Mahmoud Dammak et Louay Kouki
 // Permet aux deux élèves de répéter et de suivre leur texte en direct
 
 import React, { useState } from 'react';
@@ -21,14 +21,14 @@ export default function PresenterCues({
     switch (speaker) {
       case 'dammak':
         return {
-          name: 'Dammak',
+          name: 'Mahmoud Dammak',
           label: 'Présentateur 1',
           classes: 'badge-dammak',
           color: '#38bdf8'
         };
       case 'louay':
         return {
-          name: 'Louay',
+          name: 'Louay Kouki',
           label: 'Présentateur 2',
           classes: 'badge-louay',
           color: '#818cf8'
@@ -104,7 +104,7 @@ export default function PresenterCues({
             <div className="drawer-header">
               <div>
                 <h3>Livret des Présentateurs — {PRESENTATION_INFO.title}</h3>
-                <p className="text-muted">Répartition équilibrée 50/50 entre Dammak et Louay (Niveau A2)</p>
+                <p className="text-muted">Répartition équilibrée 50/50 entre Mahmoud Dammak et Louay Kouki (Niveau A2)</p>
               </div>
               <button 
                 type="button"

@@ -5,6 +5,7 @@ export type CameraPresetId =
   | 'overview'
   | 'cutaway'
   | 'living'
+  | 'speaker'
   | 'kitchen'
   | 'hallway'
   | 'bedroom';
@@ -101,6 +102,16 @@ export const CAMERA_PRESETS: Record<CameraPresetId, CameraPreset> = {
     position: { x: -4.4, y: 2.35, z: 9.6 },
     target: { x: -4.4, y: 1.35, z: -1.5 },
     fov: 39,
+    recommendedRoofMode: 'INTERIOR',
+  },
+  speaker: {
+    id: 'speaker',
+    label: 'Smart Speaker Focus',
+    frenchSubtitle: 'Enceinte Intelligente (Gros Plan)',
+    category: 'room',
+    position: { x: -4.6, y: 1.35, z: -1.8 },
+    target: { x: -4.6, y: 1.05, z: -4.0 },
+    fov: 28,
     recommendedRoofMode: 'INTERIOR',
   },
   kitchen: {
@@ -279,13 +290,15 @@ export function clampCameraPosition(
   let y = Math.max(minY, Math.min(maxY, pos.y));
   let z = Math.max(-24, Math.min(34, pos.z));
 
-  // Prevent camera from entering the solid interior volume behind the cutaway plane (z < 5.0)
-  // when within the house footprint (-8.6 < x < 8.6 and y < 8.8)
+  // Prevent camera from entering behind the cutaway plane when roof is closed (exterior)
+  // or clipping behind the rear wall when roof is open in cutaway mode
   const insideFootprintX = x > -8.6 && x < 8.6;
   const maxProtectedY = roofProgress < 0.5 ? 8.8 : 7.6;
 
-  if (insideFootprintX && y < maxProtectedY && z < 5.2) {
+  if (roofProgress < 0.5 && insideFootprintX && y < maxProtectedY && z < 5.2) {
     z = 5.2;
+  } else if (insideFootprintX && y < maxProtectedY && z < -3.2) {
+    z = -3.2;
   }
 
   return { x, y, z };

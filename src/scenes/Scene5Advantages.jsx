@@ -14,7 +14,7 @@ export default function Scene5Advantages({ stageIndex }) {
       id: "time",
       title: "1. Gain de temps",
       short: "Moins de corvées quotidiennes",
-      desc: "Les lumières s'éteignent seules, le café coule tout seul au réveil.",
+      desc: "Les lumières s'éteignent seules et le café coule tout seul au réveil.",
       example: "Exemple : 15 minutes gagnées chaque matin.",
       icon: Clock,
       color: "text-cyan",
@@ -22,10 +22,10 @@ export default function Scene5Advantages({ stageIndex }) {
     },
     {
       id: "comfort",
-      title: "2. Confort maximal",
-      short: "La maison s'adapte à vous",
-      desc: "Température parfaite et ambiance relaxante dès que vous passez la porte.",
-      example: "Exemple : Un salon toujours chauffé à 21°C.",
+      title: "2. Confort",
+      short: "La maison s'adapte à nous",
+      desc: "La bonne température et les lumières idéales dès votre retour.",
+      example: "Exemple : Un salon toujours à 21°C.",
       icon: Sofa,
       color: "text-blue",
       stage: 1
@@ -33,9 +33,9 @@ export default function Scene5Advantages({ stageIndex }) {
     {
       id: "energy",
       title: "3. Économie d'énergie",
-      short: "Moins de gaspillage écologique",
-      desc: "Les radiateurs et les lumières se coupent automatiquement dans les pièces vides.",
-      example: "Exemple : Jusqu'à 25% d'économie sur la facture.",
+      short: "Moins de gaspillage",
+      desc: "Le chauffage et les lampes se coupent seuls dans les pièces vides.",
+      example: "Exemple : Moins d'électricité sur la facture.",
       icon: Leaf,
       color: "text-emerald",
       stage: 2
@@ -43,19 +43,19 @@ export default function Scene5Advantages({ stageIndex }) {
     {
       id: "remote",
       title: "4. Contrôle à distance",
-      short: "Vérification partout dans le monde",
-      desc: "Vérifiez sur votre smartphone si une porte est restée ouverte ou si le fer est éteint.",
-      example: "Exemple : Éteindre une lampe depuis la plage.",
+      short: "Vérifier avec le téléphone",
+      desc: "Vérifiez sur votre smartphone si les appareils sont bien éteints.",
+      example: "Exemple : Éteindre une lampe depuis l'école ou le travail.",
       icon: Smartphone,
       color: "text-indigo",
       stage: 2
     },
     {
       id: "security",
-      title: "5. Sécurité renforcée",
-      short: "Protection 24h/24 de la famille",
-      desc: "Détecteurs de fumée intelligents, simulation de présence avec les lumières l'été.",
-      example: "Exemple : Alerte immédiate sur mobile en cas de fuite.",
+      title: "5. Sécurité",
+      short: "Protection de la maison",
+      desc: "Détecteurs de fumée et alertes automatiques sur le téléphone.",
+      example: "Exemple : Notification immédiate en cas de problème.",
       icon: ShieldCheck,
       color: "text-amber",
       stage: 3

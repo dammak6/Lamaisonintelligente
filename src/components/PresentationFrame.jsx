@@ -183,7 +183,7 @@ export default function PresentationFrame({ children, currentSceneIndex, current
         {/* Sous-titres cinématiques de l'assistante */}
         <AssistantSubtitles subtitleData={subtitleData} />
 
-        {/* Barre de répliques et souffleur pour Dammak et Louay */}
+        {/* Barre de répliques et souffleur pour Mahmoud Dammak et Louay Kouki */}
         <PresenterCues
           currentScene={currentScene}
           currentStage={currentStage}
