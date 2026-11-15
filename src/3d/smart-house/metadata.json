@@ -1,0 +1,6 @@
+{
+  "name": "La Maison Intelligente — 3D Architectural Visualization",
+  "description": "Interactive 3D architectural visualization of a contemporary two-story smart home with articulated cutaway roof and room-by-room camera choreography.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

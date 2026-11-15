@@ -1,11 +1,21 @@
 // ThreeSmartHouse.jsx
-// Composant maître Three.js — Rendu 3D temps-réel de la maison intelligente de qualité architecturale
-// Anime les 5 appareils connectés, le système de toiture rétractable (cutaway), les lumières et la caméra
+// Intégration de la maquette architecturale 3D importée depuis Google AI Studio
+// Connectée au système des 7 scènes, aux 5 appareils connectés, au toit rétractable et aux contrôles interactifs
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import * as THREE from 'three';
-import { createHouseMaterials } from './three/houseMaterials';
-import { buildHouseGeometry } from './three/buildHouseGeometry';
+import {
+  CAMERA_PRESETS,
+  computeRoofPanelTransforms,
+} from '../3d/smart-house/src/scene/architecturalState';
+import { createArchitecturalMaterials } from '../3d/smart-house/src/scene/materials';
+import { createLightingSystem } from '../3d/smart-house/src/scene/components/LightingSystem';
+import { createExteriorGarden } from '../3d/smart-house/src/scene/components/ExteriorGarden';
+import { createHouseArchitecture } from '../3d/smart-house/src/scene/components/HouseArchitecture';
+import { createRoofSystem } from '../3d/smart-house/src/scene/components/RoofSystem';
+import { createFurnitureAndDecor } from '../3d/smart-house/src/scene/components/FurnitureAndDecor';
+import { createCameraController } from '../3d/smart-house/src/scene/components/CameraController';
+import { Camera, ChevronRight, Eye, Sparkles } from 'lucide-react';
 
 export default function ThreeSmartHouse({
   sceneId = 1,
@@ -20,27 +30,38 @@ export default function ThreeSmartHouse({
   const containerRef = useRef(null);
   const canvasRef = useRef(null);
   const [webGLError, setWebGLError] = useState(false);
+  const [currentCameraLabel, setCurrentCameraLabel] = useState('Vue Extérieure');
 
-  // Références d'état pour la boucle d'animation Three.js
-  const sceneRef = useRef(null);
-  const cameraRef = useRef(null);
-  const rendererRef = useRef(null);
-  const houseDataRef = useRef(null);
-  const materialsRef = useRef(null);
+  // Références d'état Three.js
+  const cameraRigRef = useRef(null);
+  const lightingRigRef = useRef(null);
+  const roofAssemblyRef = useRef(null);
+  const interactiveNodesRef = useRef({
+    speakerGlowRing: null,
+    speakerWaves: [],
+    coffeeSteam: [],
+    coffeeLed: null,
+    blindsSlats: [],
+    acAirflow: [],
+    acLed: null,
+    glitchHubLed: null,
+  });
 
-  // Cible de la caméra interpolée
-  const cameraTargetPos = useRef(new THREE.Vector3(14.0, 10.5, 15.5));
-  const cameraLookAt = useRef(new THREE.Vector3(0, 3.5, 0));
-  const currentLookAt = useRef(new THREE.Vector3(0, 3.5, 0));
+  // Cible d'élévation du toit rétractable (0 = fermé, 1 = ouvert/cutaway)
+  const roofTargetRef = useRef(0.0);
+  const roofCurrentRef = useRef(0.0);
 
-  // Props réactives transmises à la boucle d'animation
+  // Ambiance d'éclairage active ('evening' par défaut pour correspondre à la charte sombre nocturne)
+  const ambianceRef = useRef('evening');
+
+  // Props réactives transmises au loop d'animation
   const stateRef = useRef({
     sceneId,
     stageIndex,
     houseState,
     activeDeviceId,
     highlightMulti,
-    isOffline
+    isOffline,
   });
 
   useEffect(() => {
@@ -50,86 +71,95 @@ export default function ThreeSmartHouse({
       houseState,
       activeDeviceId,
       highlightMulti,
-      isOffline
+      isOffline,
     };
   }, [sceneId, stageIndex, houseState, activeDeviceId, highlightMulti, isOffline]);
 
-  // Définition des angles de caméra et cibles de focalisation
+  // Synchronisation des caméras et du toit selon la scène et l'appareil actif
   useEffect(() => {
+    if (!cameraRigRef.current) return;
+
+    let targetPreset = 'cutaway';
+    let targetRoof = 1.0; // Mode intérieur cutaway par défaut
+
     if (activeDeviceId === 'speaker') {
-      // Zoom sur l'enceinte connectée dans le salon
-      cameraTargetPos.current.set(-1.8, 3.2, 5.2);
-      cameraLookAt.current.set(-5.6, 1.2, -0.2);
+      targetPreset = 'living';
+      targetRoof = 1.0;
     } else if (activeDeviceId === 'coffee') {
-      // Zoom sur la machine à café dans la cuisine
-      cameraTargetPos.current.set(3.2, 3.6, 0.8);
-      cameraLookAt.current.set(4.2, 1.9, -4.5);
+      targetPreset = 'kitchen';
+      targetRoof = 1.0;
     } else if (activeDeviceId === 'blinds') {
-      // Zoom sur les stores électriques à l'étage
-      cameraTargetPos.current.set(-1.2, 7.0, 7.8);
-      cameraLookAt.current.set(-3.6, 5.6, 3.2);
+      targetPreset = 'bedroom';
+      targetRoof = 1.0;
     } else if (activeDeviceId === 'ac') {
-      // Zoom sur la climatisation dans la chambre
-      cameraTargetPos.current.set(2.2, 7.6, 4.0);
-      cameraLookAt.current.set(6.4, 6.2, -1.0);
+      targetPreset = 'bedroom';
+      targetRoof = 1.0;
     } else if (activeDeviceId === 'lights') {
-      // Zoom sur l'ambiance lumineuse du salon et le lampadaire
-      cameraTargetPos.current.set(1.5, 4.5, 6.0);
-      cameraLookAt.current.set(-4.0, 1.8, -1.0);
+      targetPreset = 'living';
+      targetRoof = 1.0;
     } else if (highlightMulti) {
-      // Commande groupée "Maison, prépare mon arrivée !" : cadrage panoramique où toute la maison s'illumine
-      cameraTargetPos.current.set(13.8, 10.8, 15.5);
-      cameraLookAt.current.set(0.0, 3.6, 0.0);
+      // Commande groupée "Maison, prépare mon arrivée !" : cadrage panoramique deux niveaux
+      targetPreset = 'cutaway';
+      targetRoof = 1.0;
     } else {
-      // Angles généraux par scène
       switch (sceneId) {
         case 1:
           if (stageIndex === 0) {
-            // Scène 1 début : Toit fermé, vue extérieure complète
-            cameraTargetPos.current.set(17.5, 13.5, 20.0);
-            cameraLookAt.current.set(0, 3.2, 0);
+            // Scène 1 étape 0 : Vue extérieure de nuit, toit fermé
+            targetPreset = 'exterior';
+            targetRoof = 0.0;
           } else {
-            // Scène 1 réveil : Toit glisse vers le haut, intérieur révélé
-            cameraTargetPos.current.set(13.8, 10.2, 15.2);
-            cameraLookAt.current.set(0, 3.5, 0);
+            // Scène 1 réveil : Coupe intérieure révélée
+            targetPreset = 'cutaway';
+            targetRoof = 1.0;
           }
           break;
         case 2:
-          cameraTargetPos.current.set(13.8, 10.5, 15.2);
-          cameraLookAt.current.set(0, 3.5, 0);
+          targetPreset = 'overview';
+          targetRoof = 1.0;
           break;
         case 3:
-          cameraTargetPos.current.set(13.5, 10.0, 14.8);
-          cameraLookAt.current.set(0, 3.4, 0);
+          targetPreset = 'cutaway';
+          targetRoof = 1.0;
           break;
         case 4:
-          cameraTargetPos.current.set(14.5, 11.2, 16.0);
-          cameraLookAt.current.set(0, 3.6, 0);
+          targetPreset = 'overview';
+          targetRoof = 1.0;
           break;
         case 5:
-          cameraTargetPos.current.set(13.5, 10.0, 14.8);
-          cameraLookAt.current.set(0, 3.4, 0);
+          targetPreset = 'cutaway';
+          targetRoof = 1.0;
           break;
         case 6:
-          cameraTargetPos.current.set(13.8, 10.5, 15.0);
-          cameraLookAt.current.set(0, 3.5, 0);
+          targetPreset = 'cutaway';
+          targetRoof = 1.0;
           break;
         case 7:
           if (stageIndex <= 1) {
-            cameraTargetPos.current.set(14.5, 10.8, 16.0);
-            cameraLookAt.current.set(0, 3.5, 0);
+            targetPreset = 'overview';
+            targetRoof = 1.0;
           } else {
-            // Conclusion finale : Vue reculée nocturne
-            cameraTargetPos.current.set(17.5, 13.5, 20.0);
-            cameraLookAt.current.set(0, 3.2, 0);
+            // Clôture finale : Fermeture du toit pour la nuit
+            targetPreset = 'exterior';
+            targetRoof = 0.0;
           }
           break;
         default:
-          cameraTargetPos.current.set(13.8, 10.5, 15.2);
-          cameraLookAt.current.set(0, 3.5, 0);
+          targetPreset = 'cutaway';
+          targetRoof = 1.0;
       }
     }
-  }, [sceneId, stageIndex, activeDeviceId, highlightMulti]);
+
+    roofTargetRef.current = targetRoof;
+    cameraRigRef.current.transitionToPreset(targetPreset);
+    setCurrentCameraLabel(CAMERA_PRESETS[targetPreset]?.frenchSubtitle || targetPreset);
+
+    // Ajustement de l'ambiance lumineuse
+    if (lightingRigRef.current) {
+      const lightsOn = sceneId === 1 && stageIndex === 0 ? false : (sceneId === 7 && stageIndex >= 2 ? false : houseState.lights);
+      lightingRigRef.current.applyAmbiance(ambianceRef.current, lightsOn);
+    }
+  }, [sceneId, stageIndex, activeDeviceId, highlightMulti, houseState.lights]);
 
   // Initialisation du moteur Three.js
   useEffect(() => {
@@ -140,88 +170,310 @@ export default function ThreeSmartHouse({
     let width = container.clientWidth || 800;
     let height = container.clientHeight || 500;
 
-    // 1. Scène
+    // 1. Scène Three.js
     const scene = new THREE.Scene();
-    sceneRef.current = scene;
 
-    // 2. Caméra perspective (FOV 36 pour un rendu architectural isométrique naturel)
-    const camera = new THREE.PerspectiveCamera(36, width / height, 0.1, 150);
-    camera.position.copy(cameraTargetPos.current);
-    camera.lookAt(cameraLookAt.current);
-    currentLookAt.current.copy(cameraLookAt.current);
-    cameraRef.current = camera;
-
-    // 3. Renderer WebGL avec ACES Filmic Tone Mapping pour un rendu cinématographique
+    // 2. Renderer WebGL avec ACES Filmic Tone Mapping pour un rendu cinématographique
     let renderer;
     try {
       renderer = new THREE.WebGLRenderer({
         canvas,
         antialias: true,
         alpha: true,
-        powerPreference: 'high-performance'
+        powerPreference: 'high-performance',
       });
-      renderer.setSize(width, height);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
       renderer.toneMapping = THREE.ACESFilmicToneMapping;
-      renderer.toneMappingExposure = 1.15;
-      rendererRef.current = renderer;
+      renderer.toneMappingExposure = 1.12;
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      renderer.setSize(width, height);
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     } catch (err) {
       console.warn("WebGL initialization failed:", err);
       setWebGLError(true);
       return;
     }
 
-    // 4. Éclairage architectural cinématographique
-    const ambientLight = new THREE.AmbientLight(0x38bdf8, 0.75);
-    scene.add(ambientLight);
+    // 3. Matériaux et Rigs de la maquette architecturale importée
+    const materials = createArchitecturalMaterials(renderer, false, () => {});
+    const lightingRig = createLightingSystem(scene, renderer, materials, false);
+    lightingRigRef.current = lightingRig;
+    scene.add(lightingRig.group);
 
-    const warmAmbient = new THREE.AmbientLight(0xffedd5, 0.65);
-    scene.add(warmAmbient);
+    const gardenGroup = createExteriorGarden(materials);
+    scene.add(gardenGroup);
 
-    // Lumière solaire/lunaire directionnelle principale
-    const dirLight = new THREE.DirectionalLight(0xffffff, 1.4);
-    dirLight.position.set(15, 24, 18);
-    scene.add(dirLight);
-
-    // Lumière de remplissage cyan douce
-    const fillLight = new THREE.DirectionalLight(0x7dd3fc, 0.75);
-    fillLight.position.set(-18, 14, 12);
-    scene.add(fillLight);
-
-    // Lumière de contour arrière (rim light)
-    const rimLight = new THREE.DirectionalLight(0x818cf8, 0.5);
-    rimLight.position.set(0, 10, -18);
-    scene.add(rimLight);
-
-    // 5. Construction de la maquette 3D architecturale
-    const materials = createHouseMaterials();
-    materialsRef.current = materials;
-    const { houseGroup, interactiveNodes } = buildHouseGeometry(materials);
+    const houseGroup = createHouseArchitecture(materials);
     scene.add(houseGroup);
-    houseDataRef.current = { houseGroup, interactiveNodes };
 
-    // 6. Raycaster et interactions souris (Clic et rotation douce)
+    const roofAssembly = createRoofSystem(materials);
+    roofAssemblyRef.current = roofAssembly;
+    scene.add(roofAssembly.group);
+
+    const furnitureGroup = createFurnitureAndDecor(materials);
+    scene.add(furnitureGroup);
+
+    // 4. Contrôleur de caméra avec presets et amortissement fluide
+    const cameraRig = createCameraController(canvas, false, () => {});
+    cameraRigRef.current = cameraRig;
+
+    // Position initiale selon la scène 1
+    const initialPresetId = sceneId === 1 && stageIndex === 0 ? 'exterior' : 'cutaway';
+    cameraRig.transitionToPreset(initialPresetId);
+
+    // =========================================================================
+    // 5. AJOUT DES 5 APPAREILS CONNECTÉS INTERACTIFS DANS LA VILLA
+    // =========================================================================
+    const devicesGroup = new THREE.Group();
+    devicesGroup.name = "Interactive_Smart_Devices";
+
+    // -------------------------------------------------------------------------
+    // APPAREIL 1 : ENCEINTE CONNECTÉE (Sur le meuble TV / crédence du salon)
+    // -------------------------------------------------------------------------
+    const speakerGroup = new THREE.Group();
+    speakerGroup.name = "Device_Speaker";
+    speakerGroup.position.set(-0.9, 0.98, -4.0);
+
+    const speakerBody = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.2, 0.22, 0.45, 16),
+      materials.charcoalMatteMetal
+    );
+    speakerBody.position.y = 0.22;
+    speakerBody.castShadow = true;
+
+    const speakerRing = new THREE.Mesh(
+      new THREE.TorusGeometry(0.16, 0.025, 12, 24),
+      new THREE.MeshStandardMaterial({
+        color: 0x38bdf8,
+        emissive: new THREE.Color(0x38bdf8),
+        emissiveIntensity: 1.6,
+        roughness: 0.2,
+      })
+    );
+    speakerRing.position.y = 0.45;
+    speakerRing.rotation.x = Math.PI / 2;
+    speakerGroup.add(speakerBody, speakerRing);
+    interactiveNodesRef.current.speakerGlowRing = speakerRing;
+
+    // Ondes sonores qui rayonnent quand active
+    for (let i = 0; i < 3; i++) {
+      const wave = new THREE.Mesh(
+        new THREE.TorusGeometry(0.3 + i * 0.18, 0.015, 8, 24),
+        new THREE.MeshBasicMaterial({
+          color: 0x38bdf8,
+          transparent: true,
+          opacity: 0,
+        })
+      );
+      wave.position.y = 0.45;
+      wave.rotation.x = Math.PI / 2;
+      speakerGroup.add(wave);
+      interactiveNodesRef.current.speakerWaves.push(wave);
+    }
+    devicesGroup.add(speakerGroup);
+
+    // -------------------------------------------------------------------------
+    // APPAREIL 2 : MACHINE À CAFÉ CONNECTÉE (Sur le plan de travail cuisine)
+    // -------------------------------------------------------------------------
+    const coffeeGroup = new THREE.Group();
+    coffeeGroup.name = "Device_CoffeeMachine";
+    coffeeGroup.position.set(5.2, 1.25, -4.15);
+
+    const coffeeBase = new THREE.Mesh(
+      new THREE.BoxGeometry(0.55, 0.52, 0.48),
+      materials.brushedSteel
+    );
+    coffeeBase.position.y = 0.26;
+    coffeeBase.castShadow = true;
+
+    const coffeeHead = new THREE.Mesh(
+      new THREE.BoxGeometry(0.5, 0.22, 0.42),
+      materials.charcoalMatteMetal
+    );
+    coffeeHead.position.set(0, 0.42, 0.02);
+
+    const portafilter = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.035, 0.035, 0.26, 8),
+      materials.brushedBronze
+    );
+    portafilter.position.set(0, 0.3, 0.26);
+    portafilter.rotation.x = Math.PI / 2;
+
+    const coffeeCup = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.1, 0.08, 0.16, 12),
+      materials.exteriorPlaster
+    );
+    coffeeCup.position.set(0, 0.08, 0.16);
+
+    const coffeeLed = new THREE.Mesh(
+      new THREE.SphereGeometry(0.035, 8, 8),
+      new THREE.MeshStandardMaterial({
+        color: 0x10b981,
+        emissive: new THREE.Color(0x10b981),
+        emissiveIntensity: 1.2,
+      })
+    );
+    coffeeLed.position.set(0.18, 0.45, 0.22);
+    coffeeGroup.add(coffeeBase, coffeeHead, portafilter, coffeeCup, coffeeLed);
+    interactiveNodesRef.current.coffeeLed = coffeeLed;
+
+    // Particules de vapeur animées
+    for (let p = 0; p < 8; p++) {
+      const steam = new THREE.Mesh(
+        new THREE.SphereGeometry(0.03, 6, 6),
+        new THREE.MeshBasicMaterial({
+          color: 0xffffff,
+          transparent: true,
+          opacity: 0.4,
+        })
+      );
+      steam.position.set(
+        (Math.random() - 0.5) * 0.06,
+        0.18 + p * 0.06,
+        0.16 + (Math.random() - 0.5) * 0.05
+      );
+      steam.visible = false;
+      coffeeGroup.add(steam);
+      interactiveNodesRef.current.coffeeSteam.push({
+        mesh: steam,
+        baseY: 0.18,
+        speed: 0.007 + Math.random() * 0.005,
+        initOffset: p * 0.5,
+      });
+    }
+    devicesGroup.add(coffeeGroup);
+
+    // -------------------------------------------------------------------------
+    // APPAREIL 3 : STORES ÉLECTRIQUES CONNECTÉS (Baie vitrée étage)
+    // -------------------------------------------------------------------------
+    const blindsFrameGroup = new THREE.Group();
+    blindsFrameGroup.name = "Device_ElectricBlinds";
+    blindsFrameGroup.position.set(-4.65, 5.4, 3.8);
+
+    const shutterBox = new THREE.Mesh(
+      new THREE.BoxGeometry(4.8, 0.3, 0.25),
+      materials.charcoalMatteMetal
+    );
+    shutterBox.position.set(0, 1.25, 0);
+    blindsFrameGroup.add(shutterBox);
+
+    // 14 lames horizontales indépendantes
+    for (let s = 0; s < 14; s++) {
+      const slat = new THREE.Mesh(
+        new THREE.BoxGeometry(4.65, 0.15, 0.03),
+        materials.charcoalMatteMetal
+      );
+      slat.position.set(0, 1.05 - s * 0.16, 0.02);
+      blindsFrameGroup.add(slat);
+      interactiveNodesRef.current.blindsSlats.push(slat);
+    }
+    devicesGroup.add(blindsFrameGroup);
+
+    // -------------------------------------------------------------------------
+    // APPAREIL 5 : CLIMATISATION CONNECTÉE (Split mural suite parentale)
+    // -------------------------------------------------------------------------
+    const acGroup = new THREE.Group();
+    acGroup.name = "Device_AirConditioner";
+    acGroup.position.set(-1.8, 6.2, -1.2);
+    acGroup.rotation.y = Math.PI / 2;
+
+    const acBody = new THREE.Mesh(
+      new THREE.BoxGeometry(1.5, 0.42, 0.32),
+      materials.exteriorPlaster
+    );
+    const acGrille = new THREE.Mesh(
+      new THREE.BoxGeometry(1.3, 0.07, 0.04),
+      materials.charcoalMatteMetal
+    );
+    acGrille.position.set(0, -0.14, 0.15);
+
+    const acLed = new THREE.Mesh(
+      new THREE.BoxGeometry(0.22, 0.09, 0.02),
+      new THREE.MeshStandardMaterial({
+        color: 0x38bdf8,
+        emissive: new THREE.Color(0x38bdf8),
+        emissiveIntensity: 1.2,
+      })
+    );
+    acLed.position.set(0.45, 0.05, 0.16);
+    acGroup.add(acBody, acGrille, acLed);
+    interactiveNodesRef.current.acLed = acLed;
+
+    // Rubans de flux d'air frais bleutés
+    for (let b = 0; b < 5; b++) {
+      const beam = new THREE.Mesh(
+        new THREE.BoxGeometry(0.18, 0.035, 0.65),
+        new THREE.MeshBasicMaterial({
+          color: 0x38bdf8,
+          transparent: true,
+          opacity: 0.45,
+        })
+      );
+      beam.position.set(-0.35 + b * 0.18, -0.2, 0.35 + b * 0.12);
+      beam.rotation.x = Math.PI / 6;
+      beam.visible = false;
+      acGroup.add(beam);
+      interactiveNodesRef.current.acAirflow.push({
+        mesh: beam,
+        baseZ: 0.2,
+        baseY: -0.2,
+        speed: 0.014 + b * 0.003,
+      });
+    }
+    devicesGroup.add(acGroup);
+
+    // -------------------------------------------------------------------------
+    // APPAREIL 4 : LUMIÈRES CONNECTÉES (Lampadaire salon design interactif)
+    // -------------------------------------------------------------------------
+    const floorLampGroup = new THREE.Group();
+    floorLampGroup.name = "Device_Lights";
+    floorLampGroup.position.set(-2.35, 0.25, -1.95);
+
+    const lampShadeTarget = new THREE.Mesh(
+      new THREE.SphereGeometry(0.35, 12, 12),
+      new THREE.MeshBasicMaterial({ visible: false })
+    );
+    lampShadeTarget.position.set(0.12, 2.05, 0.1);
+    floorLampGroup.add(lampShadeTarget);
+    devicesGroup.add(floorLampGroup);
+
+    // Hub Wi-Fi domotique sur toiture (utilisé pour l'alerte panne Scène 6)
+    const hubLed = new THREE.Mesh(
+      new THREE.SphereGeometry(0.1, 8, 8),
+      new THREE.MeshStandardMaterial({
+        color: 0x38bdf8,
+        emissive: new THREE.Color(0x38bdf8),
+        emissiveIntensity: 1.0,
+      })
+    );
+    hubLed.position.set(0, 7.3, 0);
+    devicesGroup.add(hubLed);
+    interactiveNodesRef.current.glitchHubLed = hubLed;
+
+    scene.add(devicesGroup);
+
+    // =========================================================================
+    // 6. RAYCASTING AU CLIC SUR LES APPAREILS CONNECTÉS
+    // =========================================================================
     const raycaster = new THREE.Raycaster();
     const mouse = new THREE.Vector2();
-
     let isPointerDown = false;
     let pointerStartX = 0;
     let pointerStartY = 0;
-    let dragDistance = 0;
-    let rotY = 0;
-    let targetRotY = 0;
+    let dragDist = 0;
 
     const handleCanvasClick = (event) => {
       const rect = canvas.getBoundingClientRect();
       mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
       mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
 
-      raycaster.setFromCamera(mouse, camera);
-      const intersects = raycaster.intersectObjects(houseGroup.children, true);
+      raycaster.setFromCamera(mouse, cameraRig.camera);
+      const intersects = raycaster.intersectObjects(devicesGroup.children, true);
 
       if (intersects.length > 0) {
         let current = intersects[0].object;
-        while (current && current !== houseGroup) {
+        while (current && current !== devicesGroup) {
           if (current.name === "Device_Speaker") {
             onDeviceClick && onDeviceClick("speaker");
             return;
@@ -251,7 +503,7 @@ export default function ThreeSmartHouse({
       isPointerDown = true;
       pointerStartX = e.clientX;
       pointerStartY = e.clientY;
-      dragDistance = 0;
+      dragDist = 0;
     };
 
     const onPointerMove = (e) => {
@@ -260,34 +512,18 @@ export default function ThreeSmartHouse({
       mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
 
       if (isPointerDown) {
-        const dx = e.clientX - pointerStartX;
-        dragDistance += Math.abs(dx);
-        targetRotY += dx * 0.006;
-        targetRotY = THREE.MathUtils.clamp(targetRotY, -0.65, 0.65);
+        dragDist += Math.hypot(e.clientX - pointerStartX, e.clientY - pointerStartY);
         pointerStartX = e.clientX;
         pointerStartY = e.clientY;
-        canvas.style.cursor = 'grabbing';
       } else {
-        raycaster.setFromCamera(mouse, camera);
-        const intersects = raycaster.intersectObjects(houseGroup.children, true);
-        let foundDevice = false;
-        if (intersects.length > 0) {
-          let cur = intersects[0].object;
-          while (cur && cur !== houseGroup) {
-            if (cur.name && cur.name.startsWith("Device_")) {
-              foundDevice = true;
-              break;
-            }
-            cur = cur.parent;
-          }
-        }
-        canvas.style.cursor = foundDevice ? 'pointer' : 'grab';
+        raycaster.setFromCamera(mouse, cameraRig.camera);
+        const intersects = raycaster.intersectObjects(devicesGroup.children, true);
+        canvas.style.cursor = intersects.length > 0 ? 'pointer' : 'grab';
       }
     };
 
     const onPointerUp = (e) => {
-      canvas.style.cursor = 'grab';
-      if (isPointerDown && dragDistance < 6) {
+      if (isPointerDown && dragDist < 8) {
         handleCanvasClick(e);
       }
       isPointerDown = false;
@@ -297,193 +533,151 @@ export default function ThreeSmartHouse({
     window.addEventListener('pointermove', onPointerMove);
     window.addEventListener('pointerup', onPointerUp);
 
-    // 7. Redimensionnement réactif via ResizeObserver
-    const handleResize = () => {
-      if (!container || !renderer || !camera) return;
-      const newWidth = container.clientWidth;
-      const newHeight = container.clientHeight;
-      if (newWidth === 0 || newHeight === 0) return;
-
-      camera.aspect = newWidth / newHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(newWidth, newHeight);
-    };
-
+    // 7. Redimensionnement réactif
     const resizeObserver = new ResizeObserver((entries) => {
       for (const entry of entries) {
         const { width: newWidth, height: newHeight } = entry.contentRect;
-        if (newWidth > 0 && newHeight > 0 && renderer && camera) {
-          camera.aspect = newWidth / newHeight;
-          camera.updateProjectionMatrix();
+        if (newWidth > 0 && newHeight > 0 && renderer && cameraRig) {
+          cameraRig.handleResize(newWidth, newHeight);
           renderer.setSize(newWidth, newHeight);
         }
       }
     });
     resizeObserver.observe(container);
-    window.addEventListener('resize', handleResize);
 
-    // 8. Boucle d'animation principale à 60 FPS
+    // =========================================================================
+    // 8. BOUCLE D'ANIMATION PRINCIPALE À 60 FPS
+    // =========================================================================
     let animationFrameId;
     let clock = new THREE.Clock();
 
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate);
 
+      const delta = clock.getDelta();
       const elapsedTime = clock.getElapsedTime();
       const { sceneId, stageIndex, houseState, isOffline } = stateRef.current;
       const { lights, blinds, ac, coffee, speaker } = houseState;
-      const nodes = houseDataRef.current.interactiveNodes;
+      const nodes = interactiveNodesRef.current;
 
-      // Rotation douce au glissé de la souris
-      rotY = THREE.MathUtils.lerp(rotY, targetRotY, 0.08);
-      houseGroup.rotation.y = rotY;
-
-      // A. Interpolation douce de la caméra (Lerp 0.05)
-      camera.position.lerp(cameraTargetPos.current, 0.05);
-      currentLookAt.current.lerp(cameraLookAt.current, 0.05);
-      camera.lookAt(currentLookAt.current);
-
-      // B. Système de toiture rétractable (Cutaway architectural intelligent)
-      // En vue extérieure (Scène 1 étape 0 ou fin Scène 7) : toit fermé à y = 7.35
-      // En présentation intérieure / démos : toit glisse en douceur vers le haut (y = 12.8) et s'estompe
-      const isExteriorOverview = (sceneId === 1 && stageIndex === 0) || (sceneId === 7 && stageIndex >= 2);
-      const targetRoofY = isExteriorOverview ? 7.35 : 12.8;
-      const targetRoofOpacity = isExteriorOverview ? 1.0 : 0.06;
-
-      if (nodes.roofGroup) {
-        nodes.roofGroup.position.y = THREE.MathUtils.lerp(nodes.roofGroup.position.y, targetRoofY, 0.05);
-        if (materials.roofExterior) {
-          materials.roofExterior.opacity = THREE.MathUtils.lerp(materials.roofExterior.opacity, targetRoofOpacity, 0.06);
-          materials.roofTrim.opacity = THREE.MathUtils.lerp(materials.roofTrim.opacity, targetRoofOpacity, 0.06);
-          materials.solarCell.opacity = THREE.MathUtils.lerp(materials.solarCell.opacity, targetRoofOpacity, 0.06);
-          materials.solarFrame.opacity = THREE.MathUtils.lerp(materials.solarFrame.opacity, targetRoofOpacity, 0.06);
-        }
+      // A. Amortissement fluide de l'articulation du toit
+      const roofDiff = Math.abs(roofCurrentRef.current - roofTargetRef.current);
+      if (roofDiff > 0.002) {
+        roofCurrentRef.current = THREE.MathUtils.damp(
+          roofCurrentRef.current,
+          roofTargetRef.current,
+          6.0,
+          delta
+        );
+        roofAssembly.updateRoofProgress(roofCurrentRef.current);
+      } else if (roofDiff > 0) {
+        roofCurrentRef.current = roofTargetRef.current;
+        roofAssembly.updateRoofProgress(roofCurrentRef.current);
       }
 
-      // C. Animation des Lumières Connectées
-      const targetLivingInt = lights ? (isOffline ? 1.0 + Math.random() * 0.8 : 3.4) : 0.1;
-      const targetKitchenInt = lights ? (isOffline ? 0.8 + Math.random() * 0.7 : 2.6) : 0.1;
-      const targetBedroomInt = lights ? (isOffline ? 0.9 + Math.random() * 0.8 : 2.8) : 0.1;
+      // B. Transition de caméra fluide
+      cameraRig.stepTransition(delta, roofCurrentRef.current);
 
-      if (nodes.lights.living) nodes.lights.living.intensity = THREE.MathUtils.lerp(nodes.lights.living.intensity, targetLivingInt, 0.1);
-      if (nodes.lights.kitchen) nodes.lights.kitchen.intensity = THREE.MathUtils.lerp(nodes.lights.kitchen.intensity, targetKitchenInt, 0.1);
-      if (nodes.lights.bedroom) nodes.lights.bedroom.intensity = THREE.MathUtils.lerp(nodes.lights.bedroom.intensity, targetBedroomInt, 0.1);
-
-      if (nodes.floorLampShade) {
-        nodes.floorLampShade.material = lights ? materials.lampWarmShade : materials.metalDark;
-      }
-      if (nodes.bedsideLamps && nodes.bedsideLamps.length > 0) {
-        nodes.bedsideLamps.forEach((shade) => {
-          shade.material = lights ? materials.lampWarmShade : materials.metalDark;
-        });
-      }
-
-      // D. Animation physique des Stores Électriques
+      // C. Animation des Stores Électriques
       const isBlindsOpen = blinds === "open";
       const isBlindsHalf = blinds === "half";
 
       nodes.blindsSlats.forEach((slat, idx) => {
-        const fullDownY = 1.15 - idx * 0.18;
+        const fullDownY = 1.05 - idx * 0.16;
         const targetY = isBlindsOpen 
-          ? 1.25 - idx * 0.02 // Empilement compact dans le caisson
+          ? 1.15 - idx * 0.015 // Rétractation dans le caisson haut
           : isBlindsHalf 
-            ? (idx < 7 ? 1.25 - idx * 0.02 : 1.15 - (idx - 7) * 0.18)
-            : fullDownY; // Totalement fermé
+            ? (idx < 7 ? 1.15 - idx * 0.015 : 1.05 - (idx - 7) * 0.16)
+            : fullDownY;
 
         slat.position.y = THREE.MathUtils.lerp(slat.position.y, targetY, 0.08);
       });
 
-      // E. Animation de l'Enceinte Connectée
+      // D. Animation de l'Enceinte Connectée
       if (nodes.speakerGlowRing) {
         if (speaker) {
-          const pulse = 1.0 + Math.sin(elapsedTime * 6) * 0.15;
+          const pulse = 1.0 + Math.sin(elapsedTime * 6) * 0.12;
           nodes.speakerGlowRing.scale.set(pulse, pulse, pulse);
-          nodes.speakerGlowRing.material.emissiveIntensity = 1.2 + Math.sin(elapsedTime * 6) * 0.5;
 
           nodes.speakerWaves.forEach((wave, idx) => {
-            const waveProgress = (elapsedTime * 1.5 + idx * 0.33) % 1.0;
-            const waveScale = 1.0 + waveProgress * 1.8;
+            const progress = (elapsedTime * 1.5 + idx * 0.33) % 1.0;
+            const waveScale = 1.0 + progress * 1.8;
             wave.scale.set(waveScale, waveScale, waveScale);
-            wave.material.opacity = (1.0 - waveProgress) * 0.5;
+            wave.material.opacity = (1.0 - progress) * 0.45;
           });
         } else {
           nodes.speakerGlowRing.scale.set(1, 1, 1);
-          nodes.speakerGlowRing.material.emissiveIntensity = 0.3;
           nodes.speakerWaves.forEach((wave) => {
             wave.material.opacity = 0;
           });
         }
       }
 
-      // F. Animation de la Machine à Café Connectée (Vapeur)
+      // E. Animation de la Machine à Café Connectée (Vapeur)
       if (nodes.coffeeSteam && nodes.coffeeLed) {
         if (coffee) {
-          nodes.coffeeLed.material = materials.emissiveAmber;
+          nodes.coffeeLed.material.emissive.setHex(0xf59e0b);
           nodes.coffeeSteam.forEach((p) => {
             p.mesh.visible = true;
             p.mesh.position.y += p.speed;
             p.mesh.position.x += Math.sin(elapsedTime * 4 + p.initOffset) * 0.002;
-            if (p.mesh.position.y > p.baseY + 0.6) {
+            if (p.mesh.position.y > p.baseY + 0.5) {
               p.mesh.position.y = p.baseY;
             }
           });
         } else {
-          nodes.coffeeLed.material = materials.emissiveGreen;
+          nodes.coffeeLed.material.emissive.setHex(0x10b981);
           nodes.coffeeSteam.forEach((p) => {
             p.mesh.visible = false;
           });
         }
       }
 
-      // G. Animation de la Climatisation Connectée (Flux d'air frais)
+      // F. Animation de la Climatisation Connectée (Flux d'air frais)
       if (nodes.acAirflow && nodes.acLed) {
         if (ac) {
-          nodes.acLed.material = materials.emissiveCyan;
           nodes.acAirflow.forEach((beam) => {
             beam.mesh.visible = true;
             beam.mesh.position.z += beam.speed;
             beam.mesh.position.y -= beam.speed * 0.5;
-            if (beam.mesh.position.z > beam.baseZ + 1.2) {
+            if (beam.mesh.position.z > beam.baseZ + 1.1) {
               beam.mesh.position.z = beam.baseZ;
               beam.mesh.position.y = beam.baseY;
             }
           });
         } else {
-          nodes.acLed.material = materials.metalDark;
           nodes.acAirflow.forEach((beam) => {
             beam.mesh.visible = false;
           });
         }
       }
 
-      // H. Hub central Wi-Fi & Alerte coupure
+      // G. Hub central Wi-Fi & Alerte coupure Scène 6
       if (nodes.glitchHubLed) {
         if (isOffline) {
-          nodes.glitchHubLed.material = materials.emissiveRed;
-          nodes.glitchHubLed.material.emissiveIntensity = Math.sin(elapsedTime * 12) > 0 ? 1.5 : 0.2;
+          nodes.glitchHubLed.material.emissive.setHex(0xef4444);
+          nodes.glitchHubLed.material.emissiveIntensity = Math.sin(elapsedTime * 12) > 0 ? 1.8 : 0.2;
         } else {
-          nodes.glitchHubLed.material = materials.emissiveCyan;
-          nodes.glitchHubLed.material.emissiveIntensity = 0.8;
+          nodes.glitchHubLed.material.emissive.setHex(0x38bdf8);
+          nodes.glitchHubLed.material.emissiveIntensity = 1.0;
         }
       }
 
-      // Rendu de la frame
-      renderer.render(scene, camera);
+      renderer.render(scene, cameraRig.camera);
     };
 
     animate();
 
-    // Nettoyage lors du démontage
     return () => {
       cancelAnimationFrame(animationFrameId);
-      window.removeEventListener('resize', handleResize);
       resizeObserver.disconnect();
       canvas.removeEventListener('pointerdown', onPointerDown);
       window.removeEventListener('pointermove', onPointerMove);
       window.removeEventListener('pointerup', onPointerUp);
-      if (renderer) {
-        renderer.dispose();
-      }
+      cameraRig.dispose();
+      lightingRig.dispose();
+      materials.dispose();
+      renderer.dispose();
     };
   }, []);
 
@@ -499,10 +693,17 @@ export default function ThreeSmartHouse({
     <div ref={containerRef} className={`three-smart-house-viewport ${className}`}>
       <canvas ref={canvasRef} className="three-house-canvas" />
 
+      {/* Badge indicateur d'angle architectural */}
+      <div className="three-camera-angle-pill">
+        <Camera size={13} className="text-cyan inline mr-1.5" />
+        <span>{currentCameraLabel}</span>
+      </div>
+
       {/* Halo indicateur de commande groupée 3D */}
       {highlightMulti && (
         <div className="three-multi-command-badge animate-pulse">
-          <span>COMMANDE GROUPÉE 3D ACTIVE</span>
+          <Sparkles size={13} className="inline mr-1 text-cyan" />
+          <span>COMMANDE GROUPÉE ACTIVE</span>
         </div>
       )}
 
