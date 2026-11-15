@@ -37,7 +37,7 @@ export default function Scene1Opening({ stageIndex, onTriggerAction }) {
     <div className="scene-container scene-opening">
       {/* Rendu principal de la maison moderne */}
       <div className={`scene-house-viewport ${stageIndex === 0 ? 'house-sleep-mode' : 'house-awake-mode'}`}>
-        <HouseEnvironment houseState={houseState} />
+        <HouseEnvironment sceneId={1} stageIndex={stageIndex} houseState={houseState} />
       </div>
 
       {/* Titre et introduction scénique */}

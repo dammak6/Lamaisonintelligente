@@ -33,7 +33,7 @@ export default function Scene7Conclusion({ stageIndex }) {
     <div className="scene-container scene-conclusion">
       {/* Maison en arrière-plan plongée dans la nuit */}
       <div className="conclusion-house-backdrop">
-        <HouseEnvironment houseState={houseState} />
+        <HouseEnvironment sceneId={7} stageIndex={stageIndex} houseState={houseState} />
       </div>
 
       <div className="conclusion-overlay-content">

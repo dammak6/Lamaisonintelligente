@@ -48,7 +48,7 @@ export default function NavigationBar({
                 title={`Aller à la scène ${sc.number} : ${sc.name}`}
               >
                 <span className="pill-num">{sc.number}</span>
-                <span className="pill-name">{sc.name.split(' ')[0]}</span>
+                <span className="pill-name">{sc.shortName || sc.name.split(' ')[0]}</span>
               </button>
             );
           })}

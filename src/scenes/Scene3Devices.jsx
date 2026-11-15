@@ -101,6 +101,8 @@ export default function Scene3Devices({ stageIndex }) {
         {/* Colonne Maison (rendu réaliste des pièces et appareils) */}
         <div className="devices-house-panel">
           <HouseEnvironment
+            sceneId={3}
+            stageIndex={stageIndex}
             houseState={deviceStates}
             activeDeviceId={activeDeviceId}
             highlightMulti={stageIndex === 5 || stageIndex === 6}

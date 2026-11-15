@@ -96,6 +96,7 @@ export const SCENES = [
     id: 1,
     number: "01",
     name: "Ouverture & Éveil de la Maison",
+    shortName: "Ouverture",
     duration: "30 secondes",
     summary: "La maison s'allume progressivement. L'assistante accueille les présentateurs.",
     stages: [
@@ -138,6 +139,7 @@ export const SCENES = [
     id: 2,
     number: "02",
     name: "Qu'est-ce qu'une Maison Intelligente ?",
+    shortName: "Définition",
     duration: "40 secondes",
     summary: "Définition simple en français A2 : capteurs, réseau, automatisation.",
     stages: [
@@ -178,6 +180,7 @@ export const SCENES = [
     id: 3,
     number: "03",
     name: "Démonstrations en Direct des 5 Appareils",
+    shortName: "Démos 3D",
     duration: "60 secondes",
     summary: "Démonstration interactive des cinq appareils, avec la commande groupée théâtrale.",
     stages: [
@@ -247,6 +250,7 @@ export const SCENES = [
     id: 4,
     number: "04",
     name: "Comment Communiquent les Appareils ?",
+    shortName: "Réseau",
     duration: "45 secondes",
     summary: "Schéma réseau pédagogique : Utilisateur → Assistant → Réseau → Objets connectés.",
     stages: [
@@ -288,6 +292,7 @@ export const SCENES = [
     id: 5,
     number: "05",
     name: "Les 5 Grands Avantages",
+    shortName: "Avantages",
     duration: "45 secondes",
     summary: "Gain de temps, confort, économie d'énergie, contrôle à distance, sécurité.",
     stages: [
@@ -337,6 +342,7 @@ export const SCENES = [
     id: 6,
     number: "06",
     name: "Les Inconvénients et les Risques",
+    shortName: "Risques",
     duration: "55 secondes",
     summary: "Dépendance à Internet, vie privée, piratage, prix. Démonstration de coupure réseau.",
     stages: [
@@ -387,6 +393,7 @@ export const SCENES = [
     id: 7,
     number: "07",
     name: "Conclusion & Grand Débat",
+    shortName: "Débat",
     duration: "25 secondes",
     summary: "Les lumières s'éteignent. L'assistante lance la question de débat à la classe.",
     stages: [

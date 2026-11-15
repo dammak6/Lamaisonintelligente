@@ -96,7 +96,7 @@ export default function Scene6Disadvantages({ stageIndex }) {
 
       {/* Grille des 4 inconvénients */}
       <div className="disadvantages-grid">
-        {risks.map((risk) => {
+        {risks.map((risk, idx) => {
           const isHighlighted = stageIndex === risk.stage || stageIndex >= 4;
           const Icon = risk.icon;
           return (
@@ -108,7 +108,7 @@ export default function Scene6Disadvantages({ stageIndex }) {
                 <div className="risk-icon-box">
                   <Icon size={24} className={risk.color} />
                 </div>
-                <div className="risk-number-badge">RISQUE 0{risk.stage}</div>
+                <div className="risk-number-badge">RISQUE 0{idx + 1}</div>
               </div>
 
               <h3 className="risk-title">{risk.title}</h3>
