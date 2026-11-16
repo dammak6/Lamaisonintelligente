@@ -32,7 +32,7 @@ export default function Scene4Communication({ stageIndex }) {
         <span className="section-pill">SCÈNE 04 • RÉSEAU ET TECHNOLOGIE</span>
         <h2 className="section-title">Comment communiquent les appareils ?</h2>
         <p className="section-lead">
-          Le voyage invisible d'un ordre, de votre voix jusqu'à l'objet connecté.
+          Le voyage invisible d'un ordre, de notre voix jusqu'à l'appareil.
         </p>
       </div>
 
@@ -45,7 +45,7 @@ export default function Scene4Communication({ stageIndex }) {
             title="L'Utilisateur"
             subtitle="La source de l'ordre"
             iconType="user"
-            details="Nous donnons un ordre avec notre voix (« Allume le salon ») ou avec notre smartphone."
+            details="Nous donnons un ordre avec notre voix (« Allume le salon ») ou avec notre téléphone."
             isActive={stageIndex === 1 || stageIndex === 0}
             isCompleted={stageIndex > 1}
           />
@@ -63,7 +63,7 @@ export default function Scene4Communication({ stageIndex }) {
             title="L'Assistant"
             subtitle="Le cerveau numérique"
             iconType="assistant"
-            details="L'assistant écoute notre voix et transforme nos mots en message pour les appareils."
+            details="L'assistante écoute notre voix et prépare le message pour les appareils."
             isActive={stageIndex === 1 || stageIndex === 0}
             isCompleted={stageIndex > 1}
           />
@@ -81,7 +81,7 @@ export default function Scene4Communication({ stageIndex }) {
             title="Le Réseau"
             subtitle="La route sans fil"
             iconType="network"
-            details="Le message voyage très vite dans l'air avec le Wi-Fi, le Bluetooth ou Internet."
+            details="Le message voyage très vite dans l'air avec le Wi-Fi ou Internet."
             isActive={stageIndex === 2 || stageIndex === 0}
             isCompleted={stageIndex > 2}
             protocols={networkProtocols}
@@ -97,10 +97,10 @@ export default function Scene4Communication({ stageIndex }) {
         <div className="flow-step-wrapper">
           <NetworkNode
             stepNumber={4}
-            title="Appareils Connectés"
+            title="Appareils de la Maison"
             subtitle="L'action immédiate"
             iconType="devices"
-            details="L'appareil reçoit le signal et fait l'action en un instant : allumer, ouvrir, chauffer !"
+            details="L'appareil reçoit le message et agit tout de suite : allumer, ouvrir, chauffer !"
             isActive={stageIndex === 3 || stageIndex === 0}
             isCompleted={stageIndex >= 3}
           />
@@ -111,7 +111,7 @@ export default function Scene4Communication({ stageIndex }) {
       <div className="network-summary-banner">
         <Zap size={16} className="text-cyan animate-pulse" />
         <span>
-          <strong>Formule simple :</strong> Ordre vocal → Assistant → Réseau sans fil → Action de l'appareil !
+          <strong>Formule simple :</strong> Notre voix → L'assistante → Le réseau sans fil → L'appareil agit !
         </span>
       </div>
     </div>

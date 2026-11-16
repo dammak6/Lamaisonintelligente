@@ -21,10 +21,10 @@ export default function Scene2Definition({ stageIndex }) {
       <div className={`central-definition-banner ${stageIndex >= 1 ? 'animate-fade-in' : 'opacity-0'}`}>
         <div className="quote-mark">“</div>
         <p className="definition-quote">
-          Une maison intelligente utilise des <strong>objets connectés</strong> pour <strong>faciliter notre vie</strong>.
+          Une maison intelligente a des <strong>appareils simples</strong> qui <strong>nous aident tous les jours</strong>.
         </p>
         <span className="definition-subquote">
-          Les appareils sont connectés. Ils peuvent communiquer entre eux.
+          Les appareils sont connectés : ils peuvent se parler et agir tout seuls.
         </span>
       </div>
 
@@ -35,14 +35,14 @@ export default function Scene2Definition({ stageIndex }) {
           <div className="pillar-icon-box">
             <Cpu size={26} className="text-cyan" />
           </div>
-          <div className="pillar-tag">PILIER 1</div>
-          <h3 className="pillar-title">Les Objets Connectés</h3>
+          <div className="pillar-tag">ÉLÉMENT 1</div>
+          <h3 className="pillar-title">Les Appareils de la Maison</h3>
           <p className="pillar-desc">
-            Des appareils avec des capteurs simples (lumières, stores, chauffage, musique).
+            Des appareils simples dans les pièces (lumières, rideaux, chauffage, musique).
           </p>
           <div className="pillar-badge">
             <Check size={14} className="text-cyan" />
-            <span>Capteurs de présence & température</span>
+            <span>Capteurs simples & pratiques</span>
           </div>
         </div>
 
@@ -51,14 +51,14 @@ export default function Scene2Definition({ stageIndex }) {
           <div className="pillar-icon-box">
             <Wifi size={26} className="text-indigo" />
           </div>
-          <div className="pillar-tag">PILIER 2</div>
+          <div className="pillar-tag">ÉLÉMENT 2</div>
           <h3 className="pillar-title">Le Réseau sans fil</h3>
           <p className="pillar-desc">
-            Une connexion sans fil (Wi-Fi, Bluetooth) qui relie les appareils entre eux et à Internet.
+            Une connexion sans fil (Wi-Fi, Bluetooth) qui relie toute la maison et Internet.
           </p>
           <div className="pillar-badge">
             <Check size={14} className="text-cyan" />
-            <span>Transmission rapide et invisible</span>
+            <span>Rapide, direct et invisible</span>
           </div>
         </div>
 
@@ -67,14 +67,14 @@ export default function Scene2Definition({ stageIndex }) {
           <div className="pillar-icon-box">
             <Smartphone size={26} className="text-blue" />
           </div>
-          <div className="pillar-tag">PILIER 3</div>
-          <h3 className="pillar-title">Contrôle à Distance</h3>
+          <div className="pillar-tag">ÉLÉMENT 3</div>
+          <h3 className="pillar-title">Commander facilement</h3>
           <p className="pillar-desc">
-            Avec une maison intelligente, je peux contrôler mes appareils avec mon téléphone ou ma voix.
+            On commande tout très facilement avec son téléphone portable ou avec sa voix.
           </p>
           <div className="pillar-badge">
             <Check size={14} className="text-cyan" />
-            <span>Par smartphone ou à la voix</span>
+            <span>Avec le téléphone ou à la voix</span>
           </div>
         </div>
       </div>

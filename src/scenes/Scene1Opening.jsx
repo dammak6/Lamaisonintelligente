@@ -14,12 +14,17 @@ export default function Scene1Opening({ stageIndex, onTriggerAction }) {
       // Écran sombre, son discret d'ambiance
       audioManager.stop();
     } else if (stageIndex === 1) {
-      // Réveil de la maison : carillon Web Audio API + voix de l'assistante
+      // Réveil de la maison : carillon Web Audio API + voix chaleureuse de l'assistante (Microsoft Julie)
       audioManager.playWakeup();
       setTimeout(() => {
-        audioManager.playAssistant('assistant_bonjour', 'Bonjour ! Votre maison est prête.');
+        audioManager.playAssistant('assistant_bonjour', 'Bonjour Mahmoud ! Bonjour Louay ! Bienvenue chez vous. Tout est prêt !');
       }, 600);
     } else if (stageIndex === 2) {
+      audioManager.playSwitch();
+    } else if (stageIndex === 3) {
+      // Explication du fonctionnement par l'assistante
+      audioManager.playAssistant('assistant_explication', "C'est très simple. Vous pouvez commander la maison avec votre téléphone ou avec votre voix.");
+    } else if (stageIndex === 4) {
       audioManager.playSwitch();
     }
   }, [stageIndex]);

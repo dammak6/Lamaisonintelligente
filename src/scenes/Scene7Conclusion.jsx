@@ -46,38 +46,38 @@ export default function Scene7Conclusion({ stageIndex }) {
             </div>
 
             <h1 className="debate-question-title">
-              « Une maison intelligente est-elle vraiment une bonne idée ? »
+              « Une maison intelligente : est-ce une bonne idée pour tout le monde ? »
             </h1>
 
             <div className="debate-columns-grid">
               <div className="debate-col col-pour">
                 <div className="col-header">
                   <ThumbsUp size={18} className="text-emerald" />
-                  <h4>POUR LE PROGRÈS</h4>
+                  <h4>POUR (LES POINTS FORTS)</h4>
                 </div>
                 <ul>
-                  <li>Gain de temps remarquable le matin</li>
-                  <li>Économies sur la facture d'électricité</li>
-                  <li>Confort et sécurité pour toute la famille</li>
+                  <li>Gain de temps appréciable le matin</li>
+                  <li>Économie d'électricité sur la facture</li>
+                  <li>Confort et sécurité pour la famille</li>
                 </ul>
               </div>
 
               <div className="debate-col col-contre">
                 <div className="col-header">
                   <ThumbsDown size={18} className="text-red" />
-                  <h4>CONTRE LES EXCÈS</h4>
+                  <h4>CONTRE (LES LIMITES)</h4>
                 </div>
                 <ul>
-                  <li>Dépendance excessive à Internet et l'électricité</li>
-                  <li>Risques pour la vie privée et les données</li>
-                  <li>Prix d'achat encore inaccessible</li>
+                  <li>Dépendance au Wi-Fi et à l'électricité</li>
+                  <li>Protection de la vie privée</li>
+                  <li>Prix encore cher à l'achat</li>
                 </ul>
               </div>
             </div>
 
             <div className="debate-invitation">
               <MessageSquare size={16} className="text-cyan inline mr-2" />
-              <span>Mahmoud Dammak et Louay Kouki vous invitent à partager vos avis et réflexions !</span>
+              <span>Mahmoud Dammak et Louay Kouki vous invitent à partager votre avis !</span>
             </div>
           </div>
         )}

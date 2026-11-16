@@ -42,10 +42,10 @@ export default function Scene5Advantages({ stageIndex }) {
     },
     {
       id: "remote",
-      title: "4. Contrôle à distance",
-      short: "Vérifier avec le téléphone",
-      desc: "Vérifiez sur votre smartphone si les appareils sont bien éteints.",
-      example: "Exemple : Éteindre une lampe depuis l'école ou le travail.",
+      title: "4. Commander avec son téléphone",
+      short: "Tout vérifier facilement",
+      desc: "Vérifiez sur votre téléphone portable si les lampes sont bien éteintes.",
+      example: "Exemple : Éteindre une lampe depuis l'école.",
       icon: Smartphone,
       color: "text-indigo",
       stage: 2

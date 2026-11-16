@@ -53,7 +53,7 @@ export default function Scene3Devices({ stageIndex }) {
     } else if (stageIndex === 5) {
       // Réponse assistante + commande groupée : Lumières, Stores, Climatisation
       audioManager.playPhoneReceived();
-      audioManager.playAssistant('assistant_arrivee', "Bien sûr ! J'allume les lumières, j'ouvre les stores et je règle la climatisation.");
+      audioManager.playAssistant('assistant_arrivee', "Bien sûr ! J'allume les lumières, j'ouvre les rideaux et je mets la climatisation.");
       setDeviceStates({
         speaker: true,
         coffee: true,

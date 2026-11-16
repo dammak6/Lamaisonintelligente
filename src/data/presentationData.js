@@ -1,6 +1,6 @@
 // presentationData.js
 // Données complètes de la présentation en Français A2
-// Présentateurs : Mahmoud Dammak et Louay Kouki | Assistante vocale invisible
+// Présentateurs : Mahmoud Dammak et Louay Kouki | Assistante vocale invisible (Microsoft Julie)
 
 export const PRESENTATION_INFO = {
   title: "LA MAISON INTELLIGENTE",
@@ -10,8 +10,8 @@ export const PRESENTATION_INFO = {
     { id: "louay", name: "Louay Kouki", role: "Présentateur 2", color: "#818cf8" }
   ],
   assistant: {
-    name: "Assistant Domotique",
-    description: "Système vocal invisible de la maison",
+    name: "Assistante Vocale",
+    description: "Système vocal invisible et chaleureux de la maison",
     color: "#60a5fa"
   },
   duration: "5 minutes",
@@ -21,13 +21,13 @@ export const PRESENTATION_INFO = {
 export const DEVICES = [
   {
     id: "speaker",
-    name: "Enceinte connectée",
-    frenchCategory: "Le cerveau vocal",
+    name: "Haut-parleur intelligent",
+    frenchCategory: "La voix de la maison",
     room: "Salon principal",
     icon: "Volume2",
-    shortDesc: "Elle écoute notre voix et répond. Elle met aussi de la musique.",
-    fullDesc: "Elle possède un micro et le Wi-Fi. Elle comprend nos phrases simples et contrôle les autres objets.",
-    actionName: "Lancer la musique",
+    shortDesc: "Il écoute notre voix, répond à nos questions et met de la musique.",
+    fullDesc: "On lui parle simplement. Il comprend les phrases faciles et allume les autres appareils.",
+    actionName: "Mettre de la musique",
     statusTextActive: "En lecture : Ambiance relaxante",
     statusTextInactive: "En veille (écoute active)",
     badge: "Commande vocale",
@@ -35,58 +35,58 @@ export const DEVICES = [
   },
   {
     id: "coffee",
-    name: "Machine à café connectée",
-    frenchCategory: "Le confort du matin",
+    name: "Machine à café",
+    frenchCategory: "Le matin en douceur",
     room: "Cuisine moderne",
     icon: "Coffee",
     shortDesc: "Elle prépare un bon café chaud automatiquement le matin.",
-    fullDesc: "On peut la programmer ou la lancer avec le téléphone. Le café est prêt sans attendre.",
-    actionName: "Préparer un expresso",
+    fullDesc: "Le café est prêt au réveil. On peut aussi la commander avec son téléphone.",
+    actionName: "Faire un bon café",
     statusTextActive: "Chauffe : Expresso prêt dans 30s",
     statusTextInactive: "Éteinte (prête)",
-    badge: "Automatisation",
+    badge: "Automatique",
     detailStat: "85°C optimal"
   },
   {
     id: "blinds",
-    name: "Stores électriques connectés",
-    frenchCategory: "La gestion de la lumière",
-    room: "Grandes baies vitrées",
+    name: "Rideaux électriques",
+    frenchCategory: "La lumière du soleil",
+    room: "Grandes fenêtres",
     icon: "Blinds",
-    shortDesc: "Ils montent et descendent tout seuls avec le soleil.",
-    fullDesc: "Des petits moteurs font bouger les stores. Ils gardent la chaleur en hiver et la fraîcheur en été.",
-    actionName: "Ouvrir les stores",
-    statusTextActive: "Ouverts à 100% (lumière naturelle)",
+    shortDesc: "Ils s'ouvrent le matin et se ferment le soir tout seuls.",
+    fullDesc: "Des petits moteurs font bouger les rideaux. Ils gardent la chaleur en hiver et la fraîcheur en été.",
+    actionName: "Ouvrir les rideaux",
+    statusTextActive: "Ouverts à 100% (lumière du jour)",
     statusTextInactive: "Fermés à 100% (obscurité)",
-    badge: "Isolation thermique",
+    badge: "Confort thermique",
     detailStat: "Position : 100%"
   },
   {
     id: "lights",
-    name: "Lumières connectées",
-    frenchCategory: "L'éclairage intelligent",
+    name: "Lumières intelligentes",
+    frenchCategory: "L'éclairage facile",
     room: "Toute la maison",
     icon: "Lightbulb",
-    shortDesc: "Des ampoules LED qui s'allument et changent de couleur.",
-    fullDesc: "Elles s'allument quand on entre dans la pièce. Elles s'éteignent seules pour économiser l'énergie.",
-    actionName: "Allumer les lumières",
-    statusTextActive: "Allumées (Blanc chaud, 80% luminosité)",
+    shortDesc: "Des lampes qui s'allument et changent de couleur.",
+    fullDesc: "Elles s'allument quand on entre dans la pièce. Elles s'éteignent seules pour économiser l'électricité.",
+    actionName: "Allumer les lampes",
+    statusTextActive: "Allumées (Lumière douce, 80% luminosité)",
     statusTextInactive: "Éteintes (Économie active)",
-    badge: "Énergie LED",
+    badge: "Économie d'électricité",
     detailStat: "Consommation : 12W"
   },
   {
     id: "ac",
-    name: "Climatisation connectée",
-    frenchCategory: "Le climat idéal",
+    name: "Climatisation",
+    frenchCategory: "L'air frais et agréable",
     room: "Salon & Chambres",
     icon: "ThermometerSnowflake",
     shortDesc: "Elle règle la bonne température dans les pièces.",
-    fullDesc: "Un thermostat mesure la chaleur. Il coupe l'air si une fenêtre est ouverte pour ne pas gaspiller.",
-    actionName: "Régler à 21°C",
+    fullDesc: "Elle souffle de l'air frais en été. Elle s'arrête si une fenêtre est ouverte pour ne pas gaspiller.",
+    actionName: "Régler l'air à 21°C",
     statusTextActive: "Active : Température idéale 21°C",
     statusTextInactive: "En veille (température ambiante 24°C)",
-    badge: "Éco-climat",
+    badge: "Température idéale",
     detailStat: "Cible : 21.0°C"
   }
 ];
@@ -98,7 +98,7 @@ export const SCENES = [
     name: "Ouverture & Éveil de la Maison",
     shortName: "Ouverture",
     duration: "30 secondes",
-    summary: "La maison s'allume doucement. L'assistante accueille Mahmoud Dammak et Louay Kouki.",
+    summary: "La maison s'allume. L'assistante accueille Mahmoud Dammak et Louay Kouki.",
     stages: [
       {
         stageIndex: 0,
@@ -110,28 +110,37 @@ export const SCENES = [
       },
       {
         stageIndex: 1,
-        title: "Éveil progressif de la maison",
+        title: "Accueil de l'Assistante",
         speaker: "assistant",
-        dialogue: "« Bonjour ! Votre maison est prête. »",
+        dialogue: "« Bonjour Mahmoud ! Bonjour Louay ! Bienvenue chez vous. Tout est prêt ! »",
         audioKey: "assistant_bonjour",
         houseState: { lights: true, blinds: "closed", ac: false, coffee: false, speaker: false },
-        cue: "L'assistante salue la classe. Les lumières s'allument une par une."
+        cue: "L'assistante salue chaleureusement Mahmoud et Louay. Les lumières s'allument."
       },
       {
         stageIndex: 2,
-        title: "Introduction par Mahmoud Dammak",
+        title: "Mahmoud Dammak lance la présentation",
         speaker: "dammak",
-        dialogue: "« Bonjour à tous ! Avec Louay Kouki, nous vous présentons notre projet : La Maison Intelligente. »",
+        dialogue: "« Bonjour à tous ! Merci l'assistante. Avec Louay Kouki, nous vous présentons notre maison intelligente. Alors, comment ça marche ? »",
         houseState: { lights: true, blinds: "closed", ac: false, coffee: false, speaker: false },
-        cue: "Mahmoud Dammak prend la parole avec le sourire et regarde la classe."
+        cue: "Mahmoud Dammak salue la classe avec le sourire et interroge l'assistante."
       },
       {
         stageIndex: 3,
-        title: "Accroche par Louay Kouki",
-        speaker: "louay",
-        dialogue: "« Imaginez une maison qui pense et qui agit toute seule. C'est pratique ou dangereux ? Découvrons-le ensemble ! »",
+        title: "L'Assistante explique le fonctionnement",
+        speaker: "assistant",
+        dialogue: "« C'est très simple. Vous pouvez commander la maison avec votre téléphone ou avec votre voix. »",
+        audioKey: "assistant_explication",
         houseState: { lights: true, blinds: "half", ac: false, coffee: false, speaker: false },
-        cue: "Louay Kouki pose la question captivante pour engager la classe."
+        cue: "L'assistante répond d'une voix douce et accueillante."
+      },
+      {
+        stageIndex: 4,
+        title: "Louay Kouki invite à la découverte",
+        speaker: "louay",
+        dialogue: "« Exactement ! Aujourd'hui, avec Mahmoud Dammak, nous allons tout vous montrer en direct. C'est parti ! »",
+        houseState: { lights: true, blinds: "half", ac: false, coffee: false, speaker: false },
+        cue: "Louay Kouki regarde la classe et lance la visite avec enthousiasme."
       }
     ]
   },
@@ -141,38 +150,38 @@ export const SCENES = [
     name: "Qu'est-ce qu'une Maison Intelligente ?",
     shortName: "Définition",
     duration: "40 secondes",
-    summary: "Définition simple en français A2 : capteurs, réseau, contrôle.",
+    summary: "Définition simple en français A2 : appareils, réseau sans fil, commande vocale.",
     stages: [
       {
         stageIndex: 0,
         title: "La grande question",
         speaker: "louay",
-        dialogue: "« Tout d'abord, une question simple : qu'est-ce qu'une maison intelligente, exactement ? »",
+        dialogue: "« Pour commencer, posons une question simple : qu'est-ce qu'une maison intelligente ? »",
         cue: "Louay Kouki introduit la définition avec clarté."
       },
       {
         stageIndex: 1,
         title: "La définition centrale",
         speaker: "dammak",
-        dialogue: "« Une maison intelligente utilise des objets connectés. Ils facilitent notre vie de tous les jours. »",
+        dialogue: "« C'est une maison avec des appareils simples qui nous aident tous les jours. »",
         highlightCard: "definition",
-        cue: "Mahmoud Dammak donne la définition en insistant sur les mots simples."
+        cue: "Mahmoud Dammak donne la définition en parlant calmement."
       },
       {
         stageIndex: 2,
-        title: "Les 3 éléments clés",
+        title: "Les trois éléments importants",
         speaker: "louay",
-        dialogue: "« Elle a trois éléments : des capteurs pour observer, un réseau pour communiquer, et des appareils pour agir. »",
+        dialogue: "« Il y a trois éléments : des appareils dans les pièces, le Wi-Fi pour communiquer, et notre voix pour commander. »",
         highlightCard: "three_pillars",
         cue: "Louay Kouki montre les 3 piliers à l'écran."
       },
       {
         stageIndex: 3,
-        title: "Le contrôle facile",
+        title: "Commander facilement",
         speaker: "dammak",
-        dialogue: "« On contrôle tout facilement : avec son téléphone à distance, ou simplement avec sa voix ! »",
+        dialogue: "« C'est très facile : on commande tout avec son téléphone portable ou simplement en parlant ! »",
         highlightCard: "control",
-        cue: "Mahmoud Dammak montre son smartphone comme accessoire scénique."
+        cue: "Mahmoud Dammak montre son smartphone pour illustrer le contrôle."
       }
     ]
   },
@@ -182,65 +191,65 @@ export const SCENES = [
     name: "Démonstrations des 5 Appareils",
     shortName: "Démos 3D",
     duration: "60 secondes",
-    summary: "Démonstration interactive des cinq appareils, avec la commande groupée au smartphone.",
+    summary: "Démonstration interactive des cinq appareils avec la commande au smartphone.",
     stages: [
       {
         stageIndex: 0,
         title: "Présentation des 5 appareils",
         speaker: "dammak",
-        dialogue: "« Regardons notre maison en 3D. Voici cinq appareils connectés très utiles. »",
+        dialogue: "« Regardons notre maison en 3D. Voici cinq appareils très pratiques pour la vie de tous les jours. »",
         activeDeviceId: null,
         cue: "Mahmoud Dammak montre la vue générale de la maison avec les appareils."
       },
       {
         stageIndex: 1,
-        title: "L'Enceinte Connectée",
+        title: "Le Haut-parleur intelligent",
         speaker: "louay",
-        dialogue: "« Premier appareil : l'enceinte connectée. C'est le cerveau vocal. Elle écoute nos ordres et répond aussitôt. »",
+        dialogue: "« Premier appareil : le haut-parleur intelligent. Il écoute notre voix, donne la météo et met de la musique. »",
         activeDeviceId: "speaker",
-        cue: "Louay Kouki présente l'enceinte. Elle s'illumine et diffuse une onde sonore."
+        cue: "Louay Kouki présente le haut-parleur. Il s'illumine et diffuse une onde sonore."
       },
       {
         stageIndex: 2,
-        title: "La Machine à Café Connectée",
+        title: "La Machine à Café",
         speaker: "dammak",
         dialogue: "« Deuxième appareil : la machine à café. Le café coule tout seul avant même de sortir du lit ! »",
         activeDeviceId: "coffee",
-        cue: "Mahmoud Dammak clique : la machine chauffe et fait couler un café fumant."
+        cue: "Mahmoud Dammak clique : la machine chauffe et prépare un café chaud."
       },
       {
         stageIndex: 3,
         title: "Le Test au Téléphone",
         speaker: "louay",
-        dialogue: "« Le plus fort, c'est de donner un seul ordre pour toute la maison. Mahmoud Dammak, montre-nous ! »",
+        dialogue: "« Maintenant, le moment magique ! Mahmoud Dammak va donner un seul ordre avec son téléphone portable. »",
         activeDeviceId: null,
         phonePropReady: true,
         cue: "Louay Kouki passe la main à Mahmoud Dammak. Mahmoud sort son vrai téléphone."
       },
       {
         stageIndex: 4,
-        title: "La Commande Vocale au Smartphone",
+        title: "La Commande au Smartphone",
         speaker: "dammak",
-        dialogue: "« Regardez mon téléphone. Je dis simplement à ma maison : “Maison, prépare mon arrivée !” »",
+        dialogue: "« Regardez mon téléphone portable. Je dis simplement à la maison : “Maison, prépare mon arrivée !” »",
         phoneCommandSent: "Maison, prépare mon arrivée !",
-        cue: "Mahmoud Dammak fait semblant d'envoyer le message vocal. La bulle bleue glisse à droite."
+        cue: "Mahmoud Dammak montre l'envoi de la commande sur l'écran du smartphone."
       },
       {
         stageIndex: 5,
         title: "Réaction Coordonnée de la Maison",
         speaker: "assistant",
-        dialogue: "« Bien sûr ! J'allume les lumières, j'ouvre les stores et je règle la climatisation. »",
+        dialogue: "« Bien sûr ! J'allume les lumières, j'ouvre les rideaux et je mets la climatisation. »",
         audioKey: "assistant_arrivee",
-        phoneAssistantReply: "Bien sûr ! J'allume les lumières, j'ouvre les stores et je règle la climatisation.",
+        phoneAssistantReply: "Bien sûr ! J'allume les lumières, j'ouvre les rideaux et je mets la climatisation.",
         multiDeviceTrigger: true,
         houseState: { lights: true, blinds: "open", ac: true, coffee: true, speaker: true },
-        cue: "La bulle assistante arrive. Les appareils réagissent tous en direct !"
+        cue: "L'assistante répond et les appareils réagissent tous en direct !"
       },
       {
         stageIndex: 6,
         title: "Bilan de la Démonstration",
         speaker: "louay",
-        dialogue: "« En deux secondes : les lumières éclairent le salon, les stores montent et la clim souffle de l'air frais à 21 degrés ! »",
+        dialogue: "« En deux secondes : les lampes s'allument, les rideaux montent et la climatisation souffle de l'air frais ! »",
         houseState: { lights: true, blinds: "open", ac: true, coffee: false, speaker: true },
         cue: "Louay Kouki conclut la démonstration avec le sourire."
       }
@@ -252,39 +261,39 @@ export const SCENES = [
     name: "Comment Communiquent les Appareils ?",
     shortName: "Réseau",
     duration: "45 secondes",
-    summary: "Schéma réseau pédagogique : Utilisateur → Assistant → Réseau → Appareils connectés.",
+    summary: "Schéma simple : On parle → Le réseau sans fil → L'appareil agit.",
     stages: [
       {
         stageIndex: 0,
         title: "Le mystère du sans-fil",
         speaker: "louay",
-        dialogue: "« Mais comment ces appareils se parlent-ils sans aucun fil dans les murs ? »",
+        dialogue: "« Mais comment ces appareils se parlent-ils sans aucun fil dans la maison ? »",
         activeNetworkStep: 0,
-        cue: "Louay Kouki pointe le schéma réseau à l'écran."
+        cue: "Louay Kouki pointe le schéma à l'écran."
       },
       {
         stageIndex: 1,
-        title: "Étape 1 : De l'Utilisateur à l'Assistant",
+        title: "Étape 1 : On donne un ordre",
         speaker: "dammak",
-        dialogue: "« Première étape : nous donnons un ordre. L'assistant transforme notre voix en message numérique. »",
+        dialogue: "« C'est très simple ! D'abord, on parle à l'appareil ou on appuie sur son téléphone portable. »",
         activeNetworkStep: 1,
-        cue: "Mahmoud Dammak explique la première flèche : Utilisateur → Assistant."
+        cue: "Mahmoud Dammak explique la première étape."
       },
       {
         stageIndex: 2,
-        title: "Étape 2 : Le Réseau sans fil",
+        title: "Étape 2 : Le voyage dans l'air",
         speaker: "louay",
-        dialogue: "« Deuxième étape : le message voyage dans le réseau, avec le Wi-Fi dans la maison, le Bluetooth tout près, ou Internet dehors ! »",
+        dialogue: "« Ensuite, le message voyage dans l'air grâce au Wi-Fi de la maison ou avec Internet dehors. »",
         activeNetworkStep: 2,
-        cue: "Louay Kouki détaille le Wi-Fi, le Bluetooth et Internet."
+        cue: "Louay Kouki détaille la transmission sans fil."
       },
       {
         stageIndex: 3,
-        title: "Étape 3 : L'action des Appareils",
+        title: "Étape 3 : L'appareil agit",
         speaker: "dammak",
-        dialogue: "« Troisième étape : l'appareil reçoit le message très vite et fait l'action demandée : allumer, ouvrir, chauffer ! »",
+        dialogue: "« Enfin, l'appareil reçoit le message tout de suite et il agit : la lumière s'allume ou le café coule ! »",
         activeNetworkStep: 3,
-        cue: "Mahmoud Dammak montre l'action finale concrète."
+        cue: "Mahmoud Dammak montre le résultat final."
       }
     ]
   },
@@ -294,47 +303,47 @@ export const SCENES = [
     name: "Les 5 Grands Avantages",
     shortName: "Avantages",
     duration: "45 secondes",
-    summary: "Gain de temps, confort, économie d'énergie, contrôle à distance, sécurité.",
+    summary: "Gain de temps, confort, économie d'électricité, commande avec le téléphone, sécurité.",
     stages: [
       {
         stageIndex: 0,
-        title: "Pourquoi adopter la maison intelligente ?",
+        title: "Pourquoi une maison intelligente ?",
         speaker: "dammak",
         dialogue: "« Quels sont les grands avantages ? Nous avons choisi cinq points importants. »",
         activeAdvantage: null,
-        cue: "Mahmoud Dammak introduit les avantages avec enthousiasme."
+        cue: "Mahmoud Dammak introduit les avantages avec dynamisme."
       },
       {
         stageIndex: 1,
         title: "1. Gain de temps & 2. Confort",
         speaker: "louay",
-        dialogue: "« D'abord, le gain de temps : finies les corvées répétitives. Ensuite, le confort : la maison s'adapte à nous. »",
+        dialogue: "« D'abord, on gagne du temps : moins de corvées répétitives. Ensuite, le confort : la maison s'adapte à nous. »",
         activeAdvantage: "comfort_time",
         cue: "Louay Kouki présente le gain de temps et le confort."
       },
       {
         stageIndex: 2,
-        title: "3. Économie d'énergie & 4. Contrôle à distance",
+        title: "3. Économie d'énergie & 4. Téléphone",
         speaker: "dammak",
-        dialogue: "« Puis, l'économie d'énergie : les lampes s'éteignent seules dans les pièces vides. Et on peut tout vérifier avec son téléphone ! »",
+        dialogue: "« Puis, on économise l'électricité : les lampes s'éteignent seules. Et on peut tout vérifier avec son téléphone portable ! »",
         activeAdvantage: "eco_remote",
-        cue: "Mahmoud Dammak explique la baisse de facture et le contrôle mobile."
+        cue: "Mahmoud Dammak explique l'économie d'électricité et le contrôle mobile."
       },
       {
         stageIndex: 3,
-        title: "5. Sécurité renforcée",
+        title: "5. Sécurité de la maison",
         speaker: "louay",
-        dialogue: "« Enfin, la sécurité : nous recevons une alerte immédiate sur notre téléphone en cas de problème. »",
+        dialogue: "« Enfin, la sécurité : la maison nous envoie une alerte directe sur le téléphone en cas de problème. »",
         activeAdvantage: "security",
-        cue: "Louay Kouki montre l'icône de sécurité."
+        cue: "Louay Kouki montre la sécurité."
       },
       {
         stageIndex: 4,
-        title: "Question interactive à la classe",
+        title: "Question pour la classe",
         speaker: "dammak",
-        dialogue: "« Une question pour vous tous dans la classe : qui aimerait vivre dans une maison comme celle-ci ? Levez la main ! »",
+        dialogue: "« Une question pour vous tous : qui aimerait vivre dans une maison comme celle-ci ? Levez la main ! »",
         showAudienceQuestion: true,
-        cue: "Mahmoud Dammak regarde la classe, sourit et compte les mains levées."
+        cue: "Mahmoud Dammak regarde la classe avec le sourire et compte les mains levées."
       }
     ]
   },
@@ -344,46 +353,46 @@ export const SCENES = [
     name: "Les Inconvénients et les Risques",
     shortName: "Risques",
     duration: "55 secondes",
-    summary: "Dépendance à Internet, vie privée, piratage, prix. Démonstration de coupure réseau.",
+    summary: "Panne d'Internet, protection de la vie privée, sécurité du système, prix des appareils.",
     stages: [
       {
         stageIndex: 0,
-        title: "Le revers de la médaille",
+        title: "Attention aux risques",
         speaker: "louay",
-        dialogue: "« Mais attention : il y a aussi de vrais inconvénients et des risques à connaître. »",
+        dialogue: "« Mais attention : il y a aussi de vrais problèmes et des risques à connaître. »",
         activeRisk: null,
-        cue: "Louay Kouki adopte un ton sérieux pour les risques."
+        cue: "Louay Kouki prend un ton sérieux et attentif."
       },
       {
         stageIndex: 1,
-        title: "1. La dépendance à Internet",
+        title: "1. La panne d'Internet",
         speaker: "dammak",
-        dialogue: "« Premier problème : la panne d'Internet. Si le Wi-Fi s'arrête ou s'il y a une coupure de courant, plus rien ne répond ! »",
+        dialogue: "« Premier problème : la panne d'Internet. Si le Wi-Fi s'arrête ou s'il n'y a plus d'électricité, plus rien ne marche ! »",
         activeRisk: "internet",
         triggerGlitch: true,
-        cue: "Mahmoud Dammak montre le voyant Wi-Fi rouge clignotant en alerte."
+        cue: "Mahmoud Dammak montre l'alerte sur l'écran."
       },
       {
         stageIndex: 2,
-        title: "2. La protection de la vie privée",
+        title: "2. La vie privée",
         speaker: "louay",
-        dialogue: "« Deuxième risque : la vie privée. Les micros et les caméras enregistrent des données sur nos habitudes. »",
+        dialogue: "« Deuxième risque : la vie privée. Les micros et les caméras peuvent enregistrer nos habitudes à la maison. »",
         activeRisk: "privacy",
-        cue: "Louay Kouki pose la question importante des données personnelles."
+        cue: "Louay Kouki pose la question des données personnelles."
       },
       {
         stageIndex: 3,
-        title: "3. Le piratage & 4. Le prix élevé",
+        title: "3. La sécurité & 4. Le coût",
         speaker: "dammak",
-        dialogue: "« Troisièmement, le piratage : des personnes malveillantes peuvent attaquer le réseau. Et quatrièmement : ces objets coûtent cher ! »",
+        dialogue: "« Troisièmement, la sécurité : avec un mot de passe trop facile, quelqu'un peut entrer dans le système. Et quatrièmement : ces appareils coûtent cher ! »",
         activeRisk: "hack_price",
-        cue: "Mahmoud Dammak explique le piratage et le coût avec des mots simples."
+        cue: "Mahmoud Dammak explique les risques simplement."
       },
       {
         stageIndex: 4,
-        title: "Le conseil des présentateurs",
+        title: "Le conseil pratique",
         speaker: "louay",
-        dialogue: "« Notre règle d'or : choisissez des mots de passe solides et gardez toujours des boutons manuels. »",
+        dialogue: "« Notre conseil : choisissez un bon mot de passe et gardez toujours des boutons normaux sur les murs. »",
         activeRisk: "advice",
         cue: "Louay Kouki donne le conseil pratique et rassurant."
       }
@@ -406,25 +415,25 @@ export const SCENES = [
       },
       {
         stageIndex: 1,
-        title: "L'intervention finale de l'Assistante",
+        title: "L'intervention de l'Assistante",
         speaker: "assistant",
         dialogue: "« Avant de terminer, j'ai une question pour vous… »",
         audioKey: "assistant_question",
-        cue: "La voix de l'assistante résonne une dernière fois."
+        cue: "La voix douce de l'assistante résonne une dernière fois."
       },
       {
         stageIndex: 2,
-        title: "La Grande Question de Débat",
+        title: "La question de débat",
         speaker: "dammak",
-        dialogue: "« Une maison intelligente est-elle vraiment une bonne idée ? Est-ce un grand progrès ou un danger pour notre liberté ? »",
-        bigDebateQuestion: "Une maison intelligente est-elle vraiment une bonne idée ?",
-        cue: "Mahmoud Dammak pose la grande question du débat."
+        dialogue: "« Une maison intelligente : est-ce une bonne idée pour tout le monde ? Qu'en pensez-vous ? »",
+        bigDebateQuestion: "Une maison intelligente : est-ce une bonne idée pour tout le monde ?",
+        cue: "Mahmoud Dammak pose la question au public."
       },
       {
         stageIndex: 3,
-        title: "Remerciements et débat ouvert",
+        title: "Remerciements des deux présentateurs",
         speaker: "louay",
-        dialogue: "« Mahmoud Dammak et moi vous remercions pour votre attention ! La parole est à vous : qu'en pensez-vous ? »",
+        dialogue: "« Mahmoud Dammak et moi vous remercions pour votre attention ! La parole est à vous ! »",
         showEndCard: true,
         cue: "Mahmoud Dammak et Louay Kouki saluent la classe et ouvrent le débat."
       }
@@ -434,17 +443,22 @@ export const SCENES = [
 
 export const AUDIO_MANIFEST = {
   assistant_bonjour: {
-    filename: "assistant_bonjour.mp3",
-    text: "Bonjour ! Votre maison est prête.",
+    filename: "julie_bonjour.mp3",
+    text: "Bonjour Mahmoud ! Bonjour Louay ! Bienvenue chez vous. Tout est prêt !",
+    speaker: "Assistant"
+  },
+  assistant_explication: {
+    filename: "julie_explication.mp3",
+    text: "C'est très simple. Vous pouvez commander la maison avec votre téléphone ou avec votre voix.",
     speaker: "Assistant"
   },
   assistant_arrivee: {
-    filename: "assistant_arrivee.mp3",
-    text: "Bien sûr ! J'allume les lumières, j'ouvre les stores et je règle la climatisation.",
+    filename: "julie_arrivee.mp3",
+    text: "Bien sûr ! J'allume les lumières, j'ouvre les rideaux et je mets la climatisation.",
     speaker: "Assistant"
   },
   assistant_question: {
-    filename: "assistant_question.mp3",
+    filename: "julie_question.mp3",
     text: "Avant de terminer, j'ai une question pour vous…",
     speaker: "Assistant"
   }

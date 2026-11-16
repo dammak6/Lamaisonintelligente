@@ -14,9 +14,9 @@ class FrenchSpeechSynthesizer {
   initVoices() {
     if (!this.synth) return;
     const voices = this.synth.getVoices();
-    // Recherche prioritaire d'une voix française naturelle
-    this.frenchVoice = voices.find(v => v.lang === 'fr-FR' && !v.name.includes('Google') && v.localService) ||
-                       voices.find(v => v.lang.startsWith('fr') && (v.name.includes('Natural') || v.name.includes('Neural') || v.name.includes('Hortense') || v.name.includes('Julie') || v.name.includes('Thomas') || v.name.includes('Paul'))) ||
+    // Recherche prioritaire d'une voix française naturelle chaleureuse (Julie / Natural / Neural)
+    this.frenchVoice = voices.find(v => v.lang.startsWith('fr') && (v.name.includes('Julie') || v.name.includes('Natural') || v.name.includes('Neural') || v.name.includes('Denise'))) ||
+                       voices.find(v => v.lang === 'fr-FR' && !v.name.includes('Google') && v.localService) ||
                        voices.find(v => v.lang.startsWith('fr')) ||
                        null;
   }
